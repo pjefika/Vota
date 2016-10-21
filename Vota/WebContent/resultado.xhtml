@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Início
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-list"> </i> Resultado</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:insert name="eventos">
+		<f:metadata>
+
+			<f:event listener="#{loginBean.validaPagina('')}"
+				type="preRenderView" />
+
+			<f:event
+				listener="#{loginBean.redirecionaIndex(loginBean.validaSeAdm())}"
+				type="preRenderView" />
+
+			<f:viewParam name="event" value="#{dadosBean.evento.id}" />
+
+		</f:metadata>
+	</ui:insert>
+
+	<ui:define name="conteudo">
+
+		<p:panel header="Busca">
+
+			<h:panelGrid>
+
+				<h:outputText value="Selecione a celula" />
+				<p:selectOneMenu value="#{dadosBean.celula}" filter="true"
+					filterMatchMode="contains"
+					converter="omnifaces.SelectItemsConverter">
+
+					<f:selectItem itemLabel=" -- Selecione -- "
+						noSelectionOption="true" />
+
+					<f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
+						var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
+
+				</p:selectOneMenu>
+
+				<p:commandButton value="Buscar"
+					action="#{dadosBean.listarDadosAction()}" update="listEvent" />
+
+			</h:panelGrid>
+
+		</p:panel>
+
+		<br />
+
+		<p:panel header="Fotos" id="listEvent">
+
+			<p:dataTable value="#{dadosBean.dadosFiltrados}" var="dados"
+				id="infoEvento" style="text-align: center;"
+				emptyMessage="Por favor realize a consulta para mostrar as imagens"
+				filteredValue="#{dadosBean.dadosFiltrados}" 
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				rows="5" paginator="true">
+
+				<p:column headerText="Votos" style="width:20%;"
+					sortBy="#{votadoBean.listarVotados(dados).size()}">
+
+					<h:outputText
+						value="Quantidade de votos: #{votadoBean.listarVotados(dados).size()}" />
+
+				</p:column>
+
+				<p:column headerText="Foto" style="width:50px;">
+
+					<p:graphicImage value="#{dadosBean.imagens(dados.img)}"
+						stream="false" width="100%" height="100" />
+
+				</p:column>
+
+			</p:dataTable>
+
+		</p:panel>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			style="text-align: center;">
+
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+
+		</p:confirmDialog>
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Início
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-cogs"> </i> Gerenciar Eventos</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:insert name="eventos">
+		<f:metadata>
+
+			<f:event listener="#{loginBean.validaPagina('')}"
+				type="preRenderView" />
+
+			<f:event
+				listener="#{loginBean.redirecionaIndex(loginBean.validaSeAdm())}"
+				type="preRenderView" />
+
+		</f:metadata>
+	</ui:insert>
+
+	<ui:define name="conteudo">
+
+		<p:tabView id="tabView">
+
+			<p:tab title="Cadastrar Eventos">
+
+				<p:panel header="Cadastrar Evento">
+
+					<h:panelGrid>
+
+						<h:outputText value="Nome do evento" />
+						<p:inputText value="#{eventoBean.evento.nome}" />
+
+						<h:outputText value="Evento ativo?" />
+						<p:selectBooleanCheckbox value="#{eventoBean.evento.ativo}" />
+
+						<p:outputLabel value="Data inicio " />
+						<p:calendar value="#{eventoBean.evento.dataEvento}"
+							pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+						<p:outputLabel value="Data fim " />
+						<p:calendar value="#{eventoBean.evento.dataFim}"
+							pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+						<p:commandButton value="Cadastrar"
+							action="#{eventoBean.cadastrarEvento()}" update="@all" />
+
+					</h:panelGrid>
+
+				</p:panel>
+
+				<br />
+
+				<p:panel header="Listar Eventos">
+
+					<p:dataTable var="event" value="#{eventoBean.listarTodosEventos()}"
+						filteredValue="#{eventoBean.eventosFiltrados}"
+						emptyMessage="Não há eventos cadastrados"
+						style="text-align:center;" widgetVar="dataTableWithEvents">
+
+						<p:column headerText="Nome" filterBy="#{event.nome}"
+							filterMatchMode="contains">
+
+							<h:outputText value="#{event.nome}" />
+
+						</p:column>
+
+						<p:column headerText="Ativo?" sortBy="#{event.ativo}">
+
+							<h:outputText value="Ativo" rendered="#{event.ativo}" />
+							<h:outputText value="Inativo" rendered="#{!event.ativo}" />
+
+						</p:column>
+
+						<p:column headerText="Login Criador"
+							filterBy="#{event.usuarioEfika.login}" filterMatchMode="contains">
+
+							<h:outputText value="#{event.usuarioEfika.login}" />
+
+						</p:column>
+
+						<p:column headerText="Data Inicio" sortBy="#{event.dataEvento}">
+
+							<h:outputText value="#{event.dataEvento}">
+
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+
+							</h:outputText>
+
+						</p:column>
+
+						<p:column headerText="Data Fim" sortBy="#{event.dataFim}">
+
+							<h:outputText value="#{event.dataFim}">
+
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+
+							</h:outputText>
+
+						</p:column>
+
+						<p:column headerText="Ações">
+
+							<p:commandButton icon="ui-icon-pencil"
+								onclick="PF('dialogModEvent').show();"
+								update="@form:tabView:modEvento">
+
+								<f:setPropertyActionListener value="#{event}"
+									target="#{eventoBean.eventoModifica}" />
+
+							</p:commandButton>
+
+							<p:button outcome="resultado" icon="fa fa-line-chart" title="Resultado">
+
+								<f:param name="event" value="#{event.id}" />
+
+							</p:button>
+
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+
+				<p:dialog widgetVar="dialogModEvent" modal="true" hideEffect="fade"
+					showEffect="fade" width="300" minWidth="300" height="250"
+					minHeight="250" resizable="false">
+
+					<h:panelGrid id="modEvento">
+
+						<h:outputText value="Nome do evento" />
+						<p:inputText value="#{eventoBean.eventoModifica.nome}" />
+
+						<h:outputText value="Evento ativo?" />
+						<p:selectBooleanCheckbox
+							value="#{eventoBean.eventoModifica.ativo}" />
+
+						<p:outputLabel value="Data inicio " />
+						<p:calendar value="#{eventoBean.eventoModifica.dataEvento}"
+							pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+						<p:outputLabel value="Data fim " />
+						<p:calendar value="#{eventoBean.eventoModifica.dataFim}"
+							pattern="dd/MM/yyyy" mask="true" locale="pt" />
+
+						<p:commandButton value="Modificar"
+							actionListener="#{eventoBean.modificarEvento()}" update="@all"
+							onclick="PF('dataTableWithEvents').clearFilters()" />
+
+					</h:panelGrid>
+
+				</p:dialog>
+
+			</p:tab>
+
+			<p:tab title="Eventos">
+
+				<p:panel header="Eventos" id="tabEventos">
+
+					<h:panelGroup>
+
+						<h:outputText value="Selecione o evento: " />
+						<br />
+						<p:selectOneMenu value="#{dadosBean.evento}" filter="true"
+							filterMatchMode="contains"
+							converter="omnifaces.SelectItemsConverter">
+
+							<f:selectItem itemLabel=" -- Selecione -- "
+								noSelectionOption="true" />
+
+							<f:selectItems value="#{eventoBean.listarTodosEventos()}"
+								var="events" itemLabel="#{events.nome}" itemValue="#{events}" />
+
+							<p:ajax update="tabEventos" event="change" />
+
+						</p:selectOneMenu>
+						<br />
+						<h:outputText value="Selecione a celula: " />
+						<br />
+						<p:selectOneMenu value="#{dadosBean.celula}" filter="true"
+							filterMatchMode="contains"
+							converter="omnifaces.SelectItemsConverter">
+
+							<f:selectItem itemLabel=" -- Selecione -- "
+								noSelectionOption="true" />
+
+							<f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
+								var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
+							<p:ajax update="tabEventos" event="change" />
+
+						</p:selectOneMenu>
+						<br />
+
+						<p:commandButton value="Buscar" update="infoEvento" />
+
+					</h:panelGroup>
+
+					<br />
+					<br />
+
+					<p:fileUpload fileUploadListener="#{dadosBean.cadastrarDados}"
+						label="Escolher arquivo" cancelLabel="Cancelar" fileLimit="20"
+						multiple="true" sizeLimit="5000000" dragDropSupport="true"
+						mode="advanced" style="width: 100%;"
+						update="infoEvento @form:msgs" owTypes="/(\.|\/)(jpe?g)$/" />
+
+				</p:panel>
+
+				<br />
+
+				<p:panel header="Dados">
+
+					<p:dataGrid value="#{dadosBean.listarDados()}" var="dados"
+						id="infoEvento" columns="4" layout="grid" style="widht: 100%"
+						emptyMessage="Por favor realize a consulta para mostrar as imagens">
+
+						<p:panel header="#{dados.nome}">
+
+							<h:panelGrid columns="1">
+
+								<p:commandButton icon="ui-icon-trash"
+									action="#{dadosBean.removerImg(dados)}" update="infoEvento">
+
+									<p:confirm header="Remover Imagem"
+										message="Você tem certeza que deseja remover a Imagem"
+										icon="ui-icon-alert" />
+
+								</p:commandButton>
+
+								<p:graphicImage value="#{dadosBean.imagens(dados.img)}"
+									stream="false" width="100%" height="250" />
+
+							</h:panelGrid>
+
+						</p:panel>
+
+					</p:dataGrid>
+
+				</p:panel>
+
+			</p:tab>
+
+			<p:tab title="Celula">
+
+				<p:panel header="Cadastrar">
+
+					<h:panelGrid>
+
+						<h:outputText value="Nome" />
+						<p:inputText value="#{celulaBean.celula.nome}" />
+
+						<h:outputText value="Ativo" />
+						<p:selectBooleanCheckbox value="#{celulaBean.celula.ativo}" />
+
+						<p:commandButton value="Cadastrar"
+							action="#{celulaBean.cadastrarCelula()}" update="@all" />
+
+					</h:panelGrid>
+
+				</p:panel>
+
+				<br />
+
+				<p:panel header="Lista">
+
+					<p:dataTable value="#{celulaBean.listarTodasCelulas()}"
+						var="celulas" style="text-align: center;"
+						emptyMessage="Não há celulas registradas">
+
+						<p:column headerText="Nome">
+
+							<h:outputText value="#{celulas.nome}" />
+
+						</p:column>
+
+						<p:column headerText="Ativo">
+
+							<h:outputText value="Ativo" rendered="#{celulas.ativo}" />
+							<h:outputText value="Inativo" rendered="#{!celulas.ativo}" />
+
+						</p:column>
+
+						<p:column headerText="Ações">
+
+							<p:commandButton icon="ui-icon-pencil"
+								onclick="PF('dialogModCelula').show();"
+								update="@form:tabView:modCelula">
+
+								<f:setPropertyActionListener value="#{celulas}"
+									target="#{celulaBean.celulaModifica}" />
+
+							</p:commandButton>
+
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+
+				<p:dialog widgetVar="dialogModCelula" modal="true" hideEffect="fade"
+					showEffect="fade" width="300" minWidth="300" height="200"
+					minHeight="200">
+
+					<h:panelGrid id="modCelula">
+
+						<h:outputText value="Nome" />
+						<p:inputText value="#{celulaBean.celulaModifica.nome}" />
+
+						<h:outputText value="Ativo" />
+						<p:selectBooleanCheckbox
+							value="#{celulaBean.celulaModifica.ativo}" />
+
+						<p:commandButton value="Modificar"
+							action="#{celulaBean.modificarCelula()}" update="@all" />
+
+					</h:panelGrid>
+
+				</p:dialog>
+
+			</p:tab>
+
+		</p:tabView>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			style="text-align: center;">
+
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+
+		</p:confirmDialog>
+
+	</ui:define>
+</ui:composition>
+</html>

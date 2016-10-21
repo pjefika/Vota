@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Início
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-list"> </i> Eventos</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:insert name="eventos">
+		<f:metadata>
+
+			<f:event listener="#{loginBean.validaPagina('')}"
+				type="preRenderView" />
+
+			<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+
+		</f:metadata>
+	</ui:insert>
+
+	<ui:define name="conteudo">
+
+		<p:panel header="Lista de Eventos">
+
+			<p:dataTable var="event" value="#{eventoBean.listarEvento()}"
+				filteredValue="#{eventoBean.eventosFiltrados}"
+				emptyMessage="Não há eventos cadastrados" style="text-align:center;">
+
+				<p:column headerText="Nome" filterBy="#{event.nome}"
+					filterMatchMode="contains">
+
+					<h:outputText value="#{event.nome}" />
+
+				</p:column>
+
+				<p:column headerText="Data Inicio" sortBy="#{event.dataEvento}">
+
+					<h:outputText value="#{event.dataEvento}">
+
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+
+					</h:outputText>
+
+				</p:column>
+				
+				<p:column headerText="Data Fim" sortBy="#{event.dataFim}">
+
+					<h:outputText value="#{event.dataFim}">
+
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+
+					</h:outputText>
+
+				</p:column>
+
+				<p:column headerText="Ações">
+
+					<p:button outcome="detEvento" value="Votar">
+
+						<f:param name="event" value="#{event.id}" />
+
+					</p:button>
+
+				</p:column>
+
+			</p:dataTable>
+
+		</p:panel>
+
+	</ui:define>
+</ui:composition>
+</html>

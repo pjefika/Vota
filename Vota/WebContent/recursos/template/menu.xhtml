@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<ul id="menu">
+
+		<h:panelGroup rendered="#{loginBean.pagina==''}">
+
+			<li><a href="/Vota/"> <i class="fa fa-home" /> Início
+			</a></li>
+
+		</h:panelGroup>
+
+		<h:panelGroup
+			rendered="#{loginBean.logado and loginBean.validaSeAdm()}">
+
+			<li><a href="/Vota/gerEventos.jsf"> <i class="fa fa-cogs" />
+					Gerenciar Evento
+			</a></li>
+
+			<li><a href="/Vota/eventos.jsf"> <i class="fa fa-list" />
+					Eventos
+			</a></li>
+
+		</h:panelGroup>
+
+	</ul>
+
+</ui:composition>
+</html>

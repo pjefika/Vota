@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Início
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-list"> </i> Detalhe</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:insert name="eventos">
+		<f:metadata>
+
+			<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+
+			<f:event listener="#{loginBean.validaPagina('')}"
+				type="preRenderView" />
+
+			<f:viewParam name="event" value="#{dadosBean.evento.id}" />
+
+		</f:metadata>
+	</ui:insert>
+
+	<ui:define name="conteudo">
+
+		<p:panel header="Busca">
+
+			<h:panelGrid>
+
+				<h:outputText value="Selecione a celula" />
+				<p:selectOneMenu value="#{dadosBean.celula}" filter="true"
+					filterMatchMode="contains"
+					converter="omnifaces.SelectItemsConverter">
+
+					<f:selectItem itemLabel=" -- Selecione -- "
+						noSelectionOption="true" />
+
+					<f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
+						var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
+					<p:ajax update="listEvent" event="change" />
+
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+
+		</p:panel>
+
+		<br />
+
+		<p:panel header="Fotos" id="listEvent">
+
+			<p:dataGrid value="#{dadosBean.listarDados()}" var="dados"
+				id="infoEvento" columns="4" layout="grid" style="widht: 100%"
+				emptyMessage="Por favor realize a consulta para mostrar as imagens">
+
+				<p:panel header="#{dados.nome}">
+
+					<h:panelGrid columns="1">
+
+						<p:graphicImage value="#{dadosBean.imagens(dados.img)}"
+							stream="false" width="100%" height="250" />
+
+						<p:commandButton value="Votar" update="@all"
+							action="#{votadoBean.votar(dados, dadosBean.celula)}">
+
+							<p:confirm header="Votar"
+								message="Você tem certeza que deseja votar?"
+								icon="ui-icon-alert" />
+
+						</p:commandButton>
+
+					</h:panelGrid>
+
+				</p:panel>
+
+			</p:dataGrid>
+
+		</p:panel>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			style="text-align: center;">
+
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+
+		</p:confirmDialog>
+
+	</ui:define>
+</ui:composition>
+</html>
