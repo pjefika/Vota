@@ -9,7 +9,7 @@
 
 	<ul id="menu">
 
-		<h:panelGroup rendered="#{loginBean.pagina==''}">
+		<h:panelGroup rendered="#{loginBean.pagina=='' and !loginBean.logado}">
 
 			<li><a href="/Vota/"> <i class="fa fa-home" /> Início
 			</a></li>

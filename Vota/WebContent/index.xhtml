@@ -28,15 +28,17 @@
 	</ui:insert>
 
 	<ui:define name="conteudo">
-	
+
 		<h:form id="formInicio">
-		
+
 			<p:panel id="panelInicio" header="Início" style="margin-bottom:20px">
-			
+
 				<p:outputPanel rendered="#{!loginBean.logado}">
 				
+					Utilize o login e senha do Efika.
+				
 					<h:panelGrid columns="3">
-					
+
 						<label for="login">Login: </label>
 						<p:inputText id="login" value="#{loginBean.usuario.login}" />
 						<p:message for="login" />
@@ -48,19 +50,22 @@
 						<p:commandButton value="Entrar" action="#{loginBean.logar()}"
 							update="@all" />
 
+						<p:button href="http://efika/web/" value="Resetar Senha"
+							target="_blank" />
+
 					</h:panelGrid>
-					
+
 				</p:outputPanel>
-				
+
 				<p:outputPanel rendered="#{loginBean.logado}">
-				
+
 					<p:commandButton value="Sair" action="#{loginBean.deslogar()}"
 						update="@all" />
-					
+
 				</p:outputPanel>
-				
+
 			</p:panel>
-			
+
 		</h:form>
 
 	</ui:define>
