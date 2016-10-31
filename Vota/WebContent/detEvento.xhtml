@@ -46,9 +46,16 @@
 
 					<f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
 						var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
-					<p:ajax update="listEvent" event="change" />
 
 				</p:selectOneMenu>
+
+				<p:commandButton action="#{dadosBean.listarDadosAction()}"
+					update="listEvent formTemplate:msgs" value="Buscar">
+
+					<p:ajaxStatus onstart="PF('loadingDialogInfo').show();"
+						onsuccess="PF('loadingDialogInfo').hide();" />
+
+				</p:commandButton>
 
 			</h:panelGroup>
 
@@ -58,7 +65,7 @@
 
 		<p:panel header="Fotos" id="listEvent">
 
-			<p:dataGrid value="#{dadosBean.listarDados()}" var="dados"
+			<p:dataGrid value="#{dadosBean.dadosFiltrados}" var="dados"
 				id="infoEvento" columns="4" layout="grid" style="widht: 100%"
 				emptyMessage="Por favor realize a consulta para mostrar as imagens">
 
@@ -70,13 +77,22 @@
 							stream="false" width="100%" height="250" />
 
 						<p:commandButton value="Votar" update="@all"
-							action="#{votadoBean.votar(dados, dadosBean.celula)}" style="color: #e8eaed; background-color: #2d74e5;">
+							actionListener="#{votadoBean.votar(dados, dadosBean.celula)}"
+							action="#{dadosBean.clearList()}"
+							style="color: #e8eaed; background-color: #2d74e5;">
 
 							<p:confirm header="Votar"
 								message="Você tem certeza que deseja votar?"
 								icon="ui-icon-alert" />
 
 						</p:commandButton>
+
+						<p:button outcome="imagemFull" value="Ver imagem" target="_blank"
+							style="color: #e8eaed; background-color: #2d74e5;">
+
+							<f:param name="path" value="#{dados.img}" />
+
+						</p:button>
 
 					</h:panelGrid>
 
@@ -95,6 +111,18 @@
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 
 		</p:confirmDialog>
+
+		<p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
+			resizable="false" width="260" height="25" minWidth="260"
+			minHeight="25" showEffect="fade" hideEffect="fade" modal="true"
+			closable="false">
+
+			<img id="j_idt17:form:j_idt45"
+				src="/Vota/recursos/images/ajax-loader.gif" alt="" />
+
+		</p:dialog>
+
+
 
 	</ui:define>
 </ui:composition>

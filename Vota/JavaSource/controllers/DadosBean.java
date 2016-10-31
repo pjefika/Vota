@@ -29,6 +29,8 @@ public class DadosBean {
 	private Celula celula;
 
 	private List<Dados> dadosFiltrados;
+	
+	private String path = null;
 
 	@EJB
 	private DadosServico dadosServico;
@@ -107,6 +109,28 @@ public class DadosBean {
 
 	}
 
+	public void clearList() {
+
+		this.dadosFiltrados = null;
+
+	}
+	
+	public StreamedContent imagensFull() {
+		
+		try {
+			
+			StreamedContent img = new DefaultStreamedContent(new FileInputStream(this.path), "image/jpg");
+
+			return img;
+			
+		} catch (Exception e) {
+
+			return null;			
+			
+		}	
+
+	}
+	
 	public Dados getDados() {
 		return dados;
 	}
@@ -137,6 +161,14 @@ public class DadosBean {
 
 	public void setDadosFiltrados(List<Dados> dadosFiltrados) {
 		this.dadosFiltrados = dadosFiltrados;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}	
 
 }
