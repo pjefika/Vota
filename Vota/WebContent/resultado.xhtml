@@ -50,8 +50,13 @@
 
 				</p:selectOneMenu>
 
-				<p:commandButton value="Buscar"
-					action="#{dadosBean.listarDadosAction()}" update="listEvent" />
+				<p:commandButton action="#{dadosBean.listarDadosAction()}"
+					update="listEvent formTemplate:msgs" value="Buscar">
+
+					<p:ajaxStatus onstart="PF('loadingDialogInfo').show();"
+						onsuccess="PF('loadingDialogInfo').hide();" />
+
+				</p:commandButton>
 
 			</h:panelGrid>
 
@@ -59,33 +64,46 @@
 
 		<br />
 
-		<p:panel header="Fotos" id="listEvent">
+		<p:panel header="Fotos" id="listEvent">			
 
-			<p:dataTable value="#{dadosBean.dadosFiltrados}" var="dados"
-				id="infoEvento" style="text-align: center;"
-				emptyMessage="Por favor realize a consulta para mostrar as imagens"
-				filteredValue="#{dadosBean.dadosFiltrados}" 
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-				rows="5" paginator="true">
+			<p:dataGrid value="#{dadosBean.dadosFiltrados}" var="dados"
+				id="infoEvento1" columns="4" layout="grid" style="widht: 100%"
+				emptyMessage="Por favor realize a consulta para mostrar as imagens">
 
-				<p:column headerText="Votos" style="width:20%;"
-					sortBy="#{votadoBean.listarVotados(dados).size()}">
+				<p:panel header="#{dados.nome}">
 
-					<h:outputText
-						value="Quantidade de votos: #{votadoBean.listarVotados(dados).size()}" />
+					<h:panelGrid columns="1">
 
-				</p:column>
+						<h:outputText
+							value="Quantidade de votos: #{votadoBean.listarVotados(dados).size()}" />
 
-				<p:column headerText="Foto" style="width:50px;">
+						<p:graphicImage value="#{dadosBean.imagens(dados.img)}"
+							stream="false" width="100%" height="250" />
 
-					<p:graphicImage value="#{dadosBean.imagens(dados.img)}"
-						stream="false" width="100%" height="100" />
+						<p:button outcome="imagemFull" value="Ver imagem" target="_blank"
+							style="color: #e8eaed; background-color: #2d74e5;">
 
-				</p:column>
+							<f:param name="path" value="#{dados.img}" />
 
-			</p:dataTable>
+						</p:button>
+
+					</h:panelGrid>
+
+				</p:panel>
+
+			</p:dataGrid>
 
 		</p:panel>
+
+		<p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
+			resizable="false" width="260" height="25" minWidth="260"
+			minHeight="25" showEffect="fade" hideEffect="fade" modal="true"
+			closable="false">
+
+			<img id="j_idt17:form:j_idt45"
+				src="/Vota/recursos/images/ajax-loader.gif" alt="" />
+
+		</p:dialog>
 
 		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
 			style="text-align: center;">
