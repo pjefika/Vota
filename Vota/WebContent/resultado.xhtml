@@ -64,7 +64,7 @@
 
 		<br />
 
-		<p:panel header="Fotos" id="listEvent">			
+		<p:panel header="Fotos" id="listEvent">
 
 			<p:dataGrid value="#{dadosBean.dadosFiltrados}" var="dados"
 				id="infoEvento1" columns="4" layout="grid" style="widht: 100%"
@@ -77,8 +77,8 @@
 						<h:outputText
 							value="Quantidade de votos: #{votadoBean.listarVotados(dados).size()}" />
 
-						<p:graphicImage value="#{dadosBean.imagens(dados.img)}"
-							stream="false" width="100%" height="250" />
+						<img
+							src="data:image/jpg;base64, #{dadosBean.getImgThumb(dados.img)}" />
 
 						<p:button outcome="imagemFull" value="Ver imagem" target="_blank"
 							style="color: #e8eaed; background-color: #2d74e5;">

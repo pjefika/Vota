@@ -1,21 +1,23 @@
 package controllers;
 
-import java.io.FileInputStream;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.imageio.ImageIO;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import entidades.Celula;
 import entidades.Dados;
 import entidades.Evento;
 import models.DadosServico;
+import net.coobird.thumbnailator.Thumbnails;
 import util.JSFUtil;
 
 @ManagedBean
@@ -29,7 +31,7 @@ public class DadosBean {
 	private Celula celula;
 
 	private List<Dados> dadosFiltrados;
-	
+
 	private String path = null;
 
 	@EJB
@@ -101,36 +103,69 @@ public class DadosBean {
 
 	}
 
-	public StreamedContent imagens(String path) throws Exception {
+	/*public StreamedContent imagens(String path) throws Exception {
 
 		StreamedContent img = new DefaultStreamedContent(new FileInputStream(path), "image/jpg");
 
 		return img;
 
-	}
+	}	
+
+	public StreamedContent imagensFull() {
+
+		try {
+
+			StreamedContent img = new DefaultStreamedContent(new FileInputStream(this.path), "image/jpg");
+
+			return img;
+
+		} catch (Exception e) {
+
+			return null;			
+
+		}	
+
+	}*/
 
 	public void clearList() {
 
 		this.dadosFiltrados = null;
 
 	}
-	
-	public StreamedContent imagensFull() {
-		
-		try {
-			
-			StreamedContent img = new DefaultStreamedContent(new FileInputStream(this.path), "image/jpg");
 
-			return img;
-			
-		} catch (Exception e) {
+	public String getImgThumb(String path) throws Exception {
 
-			return null;			
-			
-		}	
+		BufferedImage originalImage = ImageIO.read(new File(path));
+
+		BufferedImage thumbnail = Thumbnails.of(originalImage)
+				.size(200, 200)
+				.asBufferedImage();
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(thumbnail, "jpg", baos );
+		baos.flush();
+		byte[] imageInByteArray = baos.toByteArray();
+		baos.close();
+		String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+
+		return b64;
 
 	}
-	
+
+	public String imgFull() throws Exception {
+
+		BufferedImage bImage = ImageIO.read(new File(this.path));
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write( bImage, "jpg", baos );
+		baos.flush();
+		byte[] imageInByteArray = baos.toByteArray();
+		baos.close();
+		String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+
+		return b64;
+
+	}
+
 	public Dados getDados() {
 		return dados;
 	}

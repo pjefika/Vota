@@ -73,8 +73,7 @@
 
 					<h:panelGrid columns="1">
 
-						<p:graphicImage value="#{dadosBean.imagens(dados.img)}"
-							stream="false" width="100%" height="250" />
+						<img src="data:image/jpg;base64, #{dadosBean.getImgThumb(dados.img)}" />
 
 						<p:commandButton value="Votar" update="@all"
 							actionListener="#{votadoBean.votar(dados, dadosBean.celula)}"

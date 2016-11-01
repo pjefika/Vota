@@ -4,15 +4,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<f:metadata>
-	
-		<f:viewParam name="path" value="#{dadosBean.path}"/>
-	
-	</f:metadata>
 
+<f:metadata>
 
-	<p:graphicImage value="#{dadosBean.imagensFull()}" stream="false"
-			id="imagemFully" />
+	<f:viewParam name="path" value="#{dadosBean.path}" />
+
+</f:metadata>
+
+<img src="data:image/jpg;base64, #{dadosBean.imgFull()}" width="800"
+	height="600" />
 
 </html>

@@ -32,7 +32,7 @@ public class DadosServico {
 			String extencion = file.getFileName().substring(file.getFileName().lastIndexOf('.'), file.getFileName().length());
 
 			String path = "C:\\UploadedFiles\\" + JSFUtil.gerarStringAleatoria(6) + extencion;
-
+			
 			FileOutputStream fos = new FileOutputStream(path);
 
 			fos.write(conteudo);		
