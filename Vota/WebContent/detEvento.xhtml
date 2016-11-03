@@ -71,11 +71,10 @@
 
 				<p:panel header="#{dados.nome}">
 
-					<h:panelGrid columns="1">			
-					
+					<h:panelGrid columns="1">
+
 						<p:commandButton value="Votar" update="@all"
 							actionListener="#{votadoBean.votar(dados, dadosBean.celula)}"
-							action="#{dadosBean.clearList()}"
 							style="color: #e8eaed; background-color: #2d74e5;">
 
 							<p:confirm header="Votar"

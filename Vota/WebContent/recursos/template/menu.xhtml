@@ -9,15 +9,7 @@
 
 	<ul id="menu">
 
-		<h:panelGroup rendered="#{loginBean.pagina=='' and !loginBean.logado}">
-
-			<li><a href="/Vota/"> <i class="fa fa-home" /> Início
-			</a></li>
-
-		</h:panelGroup>
-
-		<h:panelGroup
-			rendered="#{loginBean.validaSeAdm()}">
+		<h:panelGroup rendered="#{loginBean.validaSeAdm()}">
 
 			<li><a href="/Vota/gerEventos.jsf"> <i class="fa fa-cogs" />
 					Gerenciar Evento

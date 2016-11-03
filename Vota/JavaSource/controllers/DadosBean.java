@@ -125,13 +125,7 @@ public class DadosBean {
 
 		}	
 
-	}*/
-
-	public void clearList() {
-
-		this.dadosFiltrados = null;
-
-	}
+	}*/	
 
 	public String getImgThumb(String path) throws Exception {
 

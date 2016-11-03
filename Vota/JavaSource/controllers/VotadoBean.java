@@ -33,27 +33,16 @@ public class VotadoBean {
 	
 	public void votar(Dados dados, Celula celula) {
 		
-		try {
-						
-			this.votado = this.votadoServico.listarVotoEspecifico(this.sessao.getUsuario(), celula, dados);
-			
-			if (this.votado.getId() == null) {
-				
-				this.votadoServico.votar(dados, this.sessao.getUsuario());
-				
-				JSFUtil.addInfoMessage("Votado com sucesso.");
-				
-			} else {
-				
-				JSFUtil.addErrorMessage("Você ja realizou o voto");
-				
-			}
-			
-		} catch (Exception e) {
-			
-			JSFUtil.addErrorMessage(e.getMessage());
-			
-		}
+		System.out.println("Nome dado: " + dados.getNome());
+		System.out.println("Nome celula: " + celula.getNome());
+		
+		
+		
+	}
+	
+	public void teste() {
+		
+		System.out.println("entrou teste");
 		
 	}
 	
