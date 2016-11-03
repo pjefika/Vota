@@ -106,7 +106,7 @@ public class LoginBean implements Serializable{
 						
 			ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler)
 					fc.getApplication().getNavigationHandler();
-			nav.performNavigation("index.jsf");
+			nav.performNavigation("restrito.jsf");
 		}
 		
 	}	

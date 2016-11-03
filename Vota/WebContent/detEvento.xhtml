@@ -71,10 +71,8 @@
 
 				<p:panel header="#{dados.nome}">
 
-					<h:panelGrid columns="1">
-
-						<img src="data:image/jpg;base64, #{dadosBean.getImgThumb(dados.img)}" />
-
+					<h:panelGrid columns="1">			
+					
 						<p:commandButton value="Votar" update="@all"
 							actionListener="#{votadoBean.votar(dados, dadosBean.celula)}"
 							action="#{dadosBean.clearList()}"
