@@ -24,7 +24,7 @@ public class EventoServico {
 			evento.setUsuarioEfika(usuarioEfika);
 
 			this.entityManager.persist(evento);
-
+			
 		} catch (Exception e) {
 
 			throw new Exception("Erro ao cadastrar");
@@ -40,6 +40,7 @@ public class EventoServico {
 
 			Query query = this.entityManager.createQuery("FROM Evento e WHERE e.ativo =:param1");
 			query.setParameter("param1", true);
+						
 			return query.getResultList();
 
 		} catch (Exception e) {
@@ -56,6 +57,7 @@ public class EventoServico {
 		try {
 
 			Query query = this.entityManager.createQuery("FROM Evento e");
+						
 			return query.getResultList();
 
 		} catch (Exception e) {
@@ -72,6 +74,7 @@ public class EventoServico {
 
 			Query query = this.entityManager.createQuery("FROM Evento e WHERE e.id =:param1");
 			query.setParameter("param1", evento.getId());
+						
 			return (Evento) query.getSingleResult();
 
 		} catch (Exception e) {
@@ -87,7 +90,7 @@ public class EventoServico {
 		try {
 			
 			this.entityManager.merge(evento);
-			
+						
 		} catch (Exception e) {
 
 			throw new Exception("Erro ao modificar Evento");

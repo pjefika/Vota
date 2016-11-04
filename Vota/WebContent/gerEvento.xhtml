@@ -8,10 +8,10 @@
 <ui:composition template="/recursos/template/template.xhtml">
 
 	<ui:define name="tituloPagina">
-		 Início
+		 Gerenciar Evento
 	</ui:define>
 	<ui:define name="tituloPrincipal">
-		<i class="fa fa-list"> </i> Resultado</ui:define>
+		<i class="fa fa-cogs"> </i> Gerenciar Evento</ui:define>
 	<ui:define name="tituloSecundario"></ui:define>
 
 	<ui:define name="botoesAcao"></ui:define>
@@ -20,12 +20,12 @@
 		<f:metadata>
 
 			<f:event listener="#{loginBean.validaPagina('')}"
-				type="preRenderView" />
+				type="preRenderView" />			
 
 			<f:event
 				listener="#{loginBean.redirecionaIndex(loginBean.validaSeAdm())}"
 				type="preRenderView" />
-
+				
 			<f:viewParam name="event" value="#{dadosBean.evento.id}" />
 
 		</f:metadata>
@@ -33,11 +33,12 @@
 
 	<ui:define name="conteudo">
 
-		<p:panel header="Busca">
+		<p:panel header="Eventos">
 
-			<h:panelGrid>
-
-				<h:outputText value="Selecione a celula" />
+			<h:panelGroup>
+							
+				<h:outputText value="Selecione a celula: " />
+				<br />
 				<p:selectOneMenu value="#{dadosBean.celula}" filter="true"
 					filterMatchMode="contains"
 					converter="omnifaces.SelectItemsConverter">
@@ -49,24 +50,33 @@
 						var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
 
 				</p:selectOneMenu>
+				<br />
 
-				<p:commandButton action="#{dadosBean.listarDadosAction()}"
-					update="listEvent formTemplate:msgs" value="Buscar">
+				<p:commandButton value="Buscar" update="infoEvento">
 
 					<p:ajaxStatus onstart="PF('loadingDialogInfo').show();"
 						onsuccess="PF('loadingDialogInfo').hide();" />
 
 				</p:commandButton>
 
-			</h:panelGrid>
+			</h:panelGroup>
+
+			<br />
+			<br />
+
+			<p:fileUpload fileUploadListener="#{dadosBean.cadastrarDados}"
+				label="Escolher arquivo" cancelLabel="Cancelar" fileLimit="50"
+				multiple="true" sizeLimit="5000000" dragDropSupport="true"
+				mode="advanced" style="width: 100%;" update="infoEvento @form:msgs"
+				owTypes="/(\.|\/)(jpe?g)$/" />
 
 		</p:panel>
 
 		<br />
 
-		<p:panel header="Fotos" id="listEvent">
+		<p:panel header="Dados">
 
-			<p:dataGrid value="#{dadosBean.dadosFiltrados}" var="dados"
+			<p:dataGrid value="#{dadosBean.listarDados()}" var="dados"
 				id="infoEvento" columns="4" layout="grid" style="widht: 100%"
 				emptyMessage="Por favor realize a consulta para mostrar as imagens">
 
@@ -74,14 +84,14 @@
 
 					<h:panelGrid columns="1">
 
-						<h:outputText value="Quantidade de votos: #{votandoBean.listarVotados(dados).size()}" />
+						<p:commandButton icon="ui-icon-trash"
+							action="#{dadosBean.removerImg(dados)}" update="infoEvento">
 
-						<p:button outcome="imagemFull" value="Ver imagem" target="_blank"
-							style="color: #e8eaed; background-color: #2d74e5;">
+							<p:confirm header="Remover Imagem"
+								message="Você tem certeza que deseja remover a Imagem"
+								icon="ui-icon-alert" />
 
-							<f:param name="path" value="#{dados.img}" />
-
-						</p:button>
+						</p:commandButton>
 
 					</h:panelGrid>
 
@@ -90,6 +100,16 @@
 			</p:dataGrid>
 
 		</p:panel>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			style="text-align: center;">
+
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+
+		</p:confirmDialog>
 
 		<p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
 			resizable="false" width="260" height="25" minWidth="260"

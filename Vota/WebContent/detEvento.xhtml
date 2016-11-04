@@ -31,7 +31,7 @@
 
 	<ui:define name="conteudo">
 
-		<p:panel header="Busca">
+		<p:panel header="Busca" id="painelForm">
 
 			<h:panelGroup>
 
@@ -71,26 +71,25 @@
 
 				<p:panel header="#{dados.nome}">
 
-					<h:panelGrid columns="1">
+					<p:commandButton value="Votar" update="@form:painelForm @form:msgs"
+						actionListener="#{votandoBean.votando(dados, dadosBean.celula)}"
+						style="color: #e8eaed; background-color: #2d74e5;">
 
-						<p:commandButton value="Votar" update="@all"
-							actionListener="#{votadoBean.votar(dados, dadosBean.celula)}"
-							style="color: #e8eaed; background-color: #2d74e5;">
+						<p:confirm header="Votar"
+							message="Você tem certeza que deseja votar?" icon="ui-icon-alert" />
 
-							<p:confirm header="Votar"
-								message="Você tem certeza que deseja votar?"
-								icon="ui-icon-alert" />
+					</p:commandButton>
 
-						</p:commandButton>
+					<p:commandButton value="Ver imagem"
+						style="color: #e8eaed; background-color: #048713;"
+						oncomplete="PF('imgFull').show();" update="@form:imagemFully">
 
-						<p:button outcome="imagemFull" value="Ver imagem" target="_blank"
-							style="color: #e8eaed; background-color: #2d74e5;">
+						<f:setPropertyActionListener value="#{dados.img}"
+							target="#{dadosBean.path}" />
 
-							<f:param name="path" value="#{dados.img}" />
+					</p:commandButton>
 
-						</p:button>
-
-					</h:panelGrid>
+					<br />
 
 				</p:panel>
 
@@ -118,7 +117,13 @@
 
 		</p:dialog>
 
+		<p:dialog modal="true" widgetVar="imgFull" showEffect="fade"
+			hideEffect="fade" closeOnEscape="true" id="imagemFully">
 
+			<img src="data:image/jpg;base64, #{dadosBean.imgFull()}" width="800"
+				height="600" />
+
+		</p:dialog>
 
 	</ui:define>
 </ui:composition>

@@ -15,41 +15,52 @@ import util.JSFUtil;
 
 @ManagedBean
 @ViewScoped
-public class VotadoBean {
-	
+public class VotandoBean {
+
 	@ManagedProperty(value="#{loginBean}")
 	private LoginBean sessao;
-	
+
 	private Votado votado;
-	
+
 	@EJB
 	private VotadoServico votadoServico;
-	
-	public VotadoBean() {
+
+	public VotandoBean() {
 
 		this.votado = new Votado();
-		
+
 	}
-	
-	public void votar(Dados dados, Celula celula) {
-		
-		System.out.println("Nome dado: " + dados.getNome());
-		System.out.println("Nome celula: " + celula.getNome());
-		
-		
-		
+
+	public void votando(Dados dados, Celula celula) {
+
+		try {
+			
+			this.votado = this.votadoServico.listarVotoEspecifico(this.sessao.getUsuario(), dados, celula);
+			
+			if (this.votado.getId() == null) {
+
+				this.votadoServico.votar(dados, this.sessao.getUsuario());
+
+				JSFUtil.addInfoMessage("Votado com sucesso.");
+
+			} else {
+
+				JSFUtil.addErrorMessage("Você ja realizou o voto");
+
+			}
+
+		} catch (Exception e) {
+
+			JSFUtil.addErrorMessage(e.getMessage());
+
+		}
+
 	}
-	
-	public void teste() {
-		
-		System.out.println("entrou teste");
-		
-	}
-	
+
 	public List<Votado> listarVotados(Dados dados) {
-				
+
 		return this.votadoServico.listaVotado(dados);
-		
+
 	}
 
 	public Votado getVotado() {

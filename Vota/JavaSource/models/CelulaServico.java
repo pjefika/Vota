@@ -21,7 +21,7 @@ public class CelulaServico {
 		try {
 			
 			this.entityManager.persist(celula);
-			
+						
 		} catch (Exception e) {
 
 			throw new Exception("Erro ao cadastrar Celula");
@@ -35,7 +35,7 @@ public class CelulaServico {
 		try {
 			
 			this.entityManager.merge(celula);
-			
+						
 		} catch (Exception e) {
 
 			throw new Exception("Erro ao modificar Celula");
@@ -50,6 +50,7 @@ public class CelulaServico {
 		try {
 			
 			Query query = this.entityManager.createQuery("FROM Celula c");
+						
 			return query.getResultList();
 			
 		} catch (Exception e) {
@@ -67,6 +68,7 @@ public class CelulaServico {
 			
 			Query query = this.entityManager.createQuery("FROM Celula c WHERE c.ativo =:param1");
 			query.setParameter("param1", true);
+						
 			return query.getResultList();
 			
 		} catch (Exception e) {

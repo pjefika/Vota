@@ -32,7 +32,7 @@ public class DadosBean {
 
 	private List<Dados> dadosFiltrados;
 
-	private String path = null;
+	private String path;
 
 	@EJB
 	private DadosServico dadosServico;
@@ -101,31 +101,7 @@ public class DadosBean {
 
 		this.dadosFiltrados = this.dadosServico.listarDados(this.evento, this.celula);
 
-	}
-
-	/*public StreamedContent imagens(String path) throws Exception {
-
-		StreamedContent img = new DefaultStreamedContent(new FileInputStream(path), "image/jpg");
-
-		return img;
-
 	}	
-
-	public StreamedContent imagensFull() {
-
-		try {
-
-			StreamedContent img = new DefaultStreamedContent(new FileInputStream(this.path), "image/jpg");
-
-			return img;
-
-		} catch (Exception e) {
-
-			return null;			
-
-		}	
-
-	}*/	
 
 	public String getImgThumb(String path) throws Exception {
 
@@ -146,17 +122,18 @@ public class DadosBean {
 
 	}
 
-	public String imgFull() throws Exception {
+	public String imgFull() {
+		
+		try {
+						
+			return this.dadosServico.trataImg(this.path);
+			
+		} catch (Exception e) {
 
-		BufferedImage bImage = ImageIO.read(new File(this.path));
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write( bImage, "jpg", baos );
-		baos.flush();
-		byte[] imageInByteArray = baos.toByteArray();
-		baos.close();
-		String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
-
-		return b64;
+			JSFUtil.addErrorMessage(e.getMessage());
+			return null;
+			
+		}		
 
 	}
 

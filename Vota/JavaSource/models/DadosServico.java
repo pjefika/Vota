@@ -1,11 +1,14 @@
 package models;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -28,7 +31,7 @@ public class DadosServico {
 		try {			
 
 			byte[] conteudo = file.getContents();
-
+			
 			String extencion = file.getFileName().substring(file.getFileName().lastIndexOf('.'), file.getFileName().length());
 
 			String path = "C:\\UploadedFiles\\" + JSFUtil.gerarStringAleatoria(6) + extencion;
@@ -47,6 +50,8 @@ public class DadosServico {
 		}
 
 	}
+	
+	
 
 	public void cadastraDados(Evento evento, String img, String nome, Celula celula) throws Exception {
 
@@ -60,7 +65,6 @@ public class DadosServico {
 			dados.setCelula(celula);
 
 			this.entityManager.persist(dados);
-
 
 		} catch (Exception e) {
 
@@ -97,7 +101,7 @@ public class DadosServico {
 		try {
 
 			this.entityManager.remove(this.entityManager.contains(dados) ? dados : this.entityManager.merge(dados));
-
+			
 		} catch (Exception e) {
 
 			throw new Exception(e.getMessage());
@@ -114,6 +118,7 @@ public class DadosServico {
 			Query query = this.entityManager.createQuery("FROM Dados d WHERE d.evento =:param1 AND d.celula =:param2");
 			query.setParameter("param1", evento);
 			query.setParameter("param2", celula);
+						
 			return query.getResultList();
 
 		} catch (Exception e) {
@@ -122,6 +127,28 @@ public class DadosServico {
 
 		}
 
+	}
+	
+	public String trataImg(String path) throws Exception {
+		
+		try {
+			
+			BufferedImage bImage = ImageIO.read(new File(path));
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write( bImage, "jpg", baos );
+			baos.flush();
+			byte[] imageInByteArray = baos.toByteArray();
+			baos.close();
+			String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+			
+			return b64;	
+			
+		} catch (Exception e) {
+
+			throw new Exception(e.getMessage());
+			
+		}
+		
 	}
 
 }

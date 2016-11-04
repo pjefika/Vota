@@ -72,7 +72,7 @@ public class LoginServico {
 				
 				
 			}
-
+			
 		} catch (Exception e) {
 
 			this.salvaLogin(usuario);
@@ -89,7 +89,7 @@ public class LoginServico {
 		usuarioEfika.setNivel(usuario.getNivel());		
 
 		this.entityManager.persist(usuarioEfika);
-
+		
 	}
 
 	public void updateLogin(UsuarioEfika usuarioEfika) {		
@@ -104,6 +104,7 @@ public class LoginServico {
 			
 			Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login =:param1");
 			query.setParameter("param1", usuarioEfika.getLogin());
+						
 			return (UsuarioEfika) query.getSingleResult();
 			
 		} catch (Exception e) {

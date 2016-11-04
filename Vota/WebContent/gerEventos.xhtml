@@ -121,7 +121,15 @@
 
 							</p:commandButton>
 
-							<p:button outcome="resultado" icon="fa fa-line-chart" title="Resultado">
+							<p:button outcome="resultado" icon="fa fa-line-chart"
+								title="Resultado">
+
+								<f:param name="event" value="#{event.id}" />
+
+							</p:button>
+							
+							<p:button outcome="gerEvento" icon="fa fa-photo"
+								title="Gerenciar">
 
 								<f:param name="event" value="#{event.id}" />
 
@@ -162,93 +170,7 @@
 
 				</p:dialog>
 
-			</p:tab>
-
-			<p:tab title="Eventos">
-
-				<p:panel header="Eventos" id="tabEventos">
-
-					<h:panelGroup>
-
-						<h:outputText value="Selecione o evento: " />
-						<br />
-						<p:selectOneMenu value="#{dadosBean.evento}" filter="true"
-							filterMatchMode="contains"
-							converter="omnifaces.SelectItemsConverter">
-
-							<f:selectItem itemLabel=" -- Selecione -- "
-								noSelectionOption="true" />
-
-							<f:selectItems value="#{eventoBean.listarTodosEventos()}"
-								var="events" itemLabel="#{events.nome}" itemValue="#{events}" />
-
-							<p:ajax update="tabEventos" event="change" />
-
-						</p:selectOneMenu>
-						<br />
-						<h:outputText value="Selecione a celula: " />
-						<br />
-						<p:selectOneMenu value="#{dadosBean.celula}" filter="true"
-							filterMatchMode="contains"
-							converter="omnifaces.SelectItemsConverter">
-
-							<f:selectItem itemLabel=" -- Selecione -- "
-								noSelectionOption="true" />
-
-							<f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
-								var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
-							<p:ajax update="tabEventos" event="change" />
-
-						</p:selectOneMenu>
-						<br />
-
-						<p:commandButton value="Buscar" update="infoEvento" />
-
-					</h:panelGroup>
-
-					<br />
-					<br />
-
-					<p:fileUpload fileUploadListener="#{dadosBean.cadastrarDados}"
-						label="Escolher arquivo" cancelLabel="Cancelar" fileLimit="20"
-						multiple="true" sizeLimit="5000000" dragDropSupport="true"
-						mode="advanced" style="width: 100%;"
-						update="infoEvento @form:msgs" owTypes="/(\.|\/)(jpe?g)$/" />
-
-				</p:panel>
-
-				<br />
-
-				<p:panel header="Dados">
-
-					<p:dataGrid value="#{dadosBean.listarDados()}" var="dados"
-						id="infoEvento" columns="4" layout="grid" style="widht: 100%"
-						emptyMessage="Por favor realize a consulta para mostrar as imagens">
-
-						<p:panel header="#{dados.nome}">
-
-							<h:panelGrid columns="1">
-
-								<p:commandButton icon="ui-icon-trash"
-									action="#{dadosBean.removerImg(dados)}" update="infoEvento">
-
-									<p:confirm header="Remover Imagem"
-										message="Você tem certeza que deseja remover a Imagem"
-										icon="ui-icon-alert" />
-
-								</p:commandButton>
-
-								<img src="data:image/jpg;base64, #{dadosBean.getImgThumb(dados.img)}" />
-
-							</h:panelGrid>
-
-						</p:panel>
-
-					</p:dataGrid>
-
-				</p:panel>
-
-			</p:tab>
+			</p:tab>			
 
 			<p:tab title="Celula">
 
@@ -340,6 +262,16 @@
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 
 		</p:confirmDialog>
+
+		<p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
+			resizable="false" width="260" height="25" minWidth="260"
+			minHeight="25" showEffect="fade" hideEffect="fade" modal="true"
+			closable="false">
+
+			<img id="j_idt17:form:j_idt45"
+				src="/Vota/recursos/images/ajax-loader.gif" alt="" />
+
+		</p:dialog>
 
 	</ui:define>
 </ui:composition>
