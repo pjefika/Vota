@@ -113,7 +113,7 @@ public class LoginBean implements Serializable{
 			nav.performNavigation("restrito.jsf");
 		}
 		
-	}	
+	}
 
 	public UsuarioEfika getUsuario() {
 		return usuario;

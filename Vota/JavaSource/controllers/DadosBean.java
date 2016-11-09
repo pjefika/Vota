@@ -31,6 +31,8 @@ public class DadosBean {
 	private Celula celula;
 
 	private List<Dados> dadosFiltrados;
+	
+	private Dados dadosFiltro;
 
 	private String path;
 
@@ -126,7 +128,7 @@ public class DadosBean {
 		
 		try {
 						
-			return this.dadosServico.trataImg(this.path);
+			return this.dadosServico.trataImg(this.dadosFiltro.getImg());
 			
 		} catch (Exception e) {
 
@@ -175,6 +177,14 @@ public class DadosBean {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public Dados getDadosFiltro() {
+		return dadosFiltro;
+	}
+
+	public void setDadosFiltro(Dados dadosFiltro) {
+		this.dadosFiltro = dadosFiltro;
 	}	
 
 }

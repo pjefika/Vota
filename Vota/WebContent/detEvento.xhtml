@@ -84,8 +84,8 @@
 						style="color: #e8eaed; background-color: #048713;"
 						oncomplete="PF('imgFull').show();" update="@form:imagemFully">
 
-						<f:setPropertyActionListener value="#{dados.img}"
-							target="#{dadosBean.path}" />
+						<f:setPropertyActionListener value="#{dados}"
+							target="#{dadosBean.dadosFiltro}" />
 
 					</p:commandButton>
 
@@ -94,6 +94,25 @@
 				</p:panel>
 
 			</p:dataGrid>
+
+			<p:dialog modal="true" widgetVar="imgFull" showEffect="fade"
+				hideEffect="fade" closeOnEscape="true" id="imagemFully">
+
+				<img src="data:image/jpg;base64, #{dadosBean.imgFull()}" width="800"
+					height="600" />
+					
+				<br />
+
+				<p:commandButton value="Votar" update="@form:painelForm @form:msgs"
+					actionListener="#{votandoBean.votando(dadosBean.dadosFiltro, dadosBean.celula)}"
+					style="color: #e8eaed; background-color: #2d74e5;">
+
+					<p:confirm header="Votar"
+						message="Você tem certeza que deseja votar?" icon="ui-icon-alert" />
+
+				</p:commandButton>
+
+			</p:dialog>
 
 		</p:panel>
 
@@ -114,14 +133,6 @@
 
 			<img id="j_idt17:form:j_idt45"
 				src="/Vota/recursos/images/ajax-loader.gif" alt="" />
-
-		</p:dialog>
-
-		<p:dialog modal="true" widgetVar="imgFull" showEffect="fade"
-			hideEffect="fade" closeOnEscape="true" id="imagemFully">
-
-			<img src="data:image/jpg;base64, #{dadosBean.imgFull()}" width="800"
-				height="600" />
 
 		</p:dialog>
 
