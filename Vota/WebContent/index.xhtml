@@ -1,73 +1,73 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/recursos/template/template.xhtml">
+    <ui:composition template="/recursos/template/template.xhtml">
 
-	<ui:define name="tituloPagina">
-		 Início
-	</ui:define>
-	<ui:define name="tituloPrincipal">
-		<i class="fa fa-home"> </i> Início</ui:define>
-	<ui:define name="tituloSecundario"></ui:define>
+        <ui:define name="tituloPagina">
+            Início
+        </ui:define>
+        <ui:define name="tituloPrincipal">
+            <i class="fa fa-home"> </i> Início</ui:define>
+        <ui:define name="tituloSecundario"></ui:define>
 
-	<ui:define name="botoesAcao"></ui:define>
+        <ui:define name="botoesAcao"></ui:define>
 
-	<ui:insert name="eventos">
+        <ui:insert name="eventos">
 
-		<f:metadata>
+            <f:metadata>
 
-			<f:event listener="#{loginBean.validaPagina('')}"
-				type="preRenderView" />
+                <f:event listener="#{loginBean.validaPagina('')}"
+                         type="preRenderView" />
 
-		</f:metadata>
+            </f:metadata>
 
-	</ui:insert>
+        </ui:insert>
 
-	<ui:define name="conteudo">
+        <ui:define name="conteudo">
 
-		<h:form id="formInicio">
+            <h:form id="formInicio">
 
-			<p:panel id="panelInicio" header="Início" style="margin-bottom:20px">
+                <p:panel id="panelInicio" header="Início" style="margin-bottom:20px">
 
-				<p:outputPanel rendered="#{!loginBean.logado}">
-				
-					Utilize o login e senha do Efika.
-				
-					<h:panelGrid columns="3">
+                    <p:outputPanel rendered="#{!loginBean.logado}">
 
-						<label for="login">Login: </label>
-						<p:inputText id="login" value="#{loginBean.usuario.login}" />
-						<p:message for="login" />
+                        Utilize o login e senha do Efika.
 
-						<label for="senha">Senha: </label>
-						<p:password id="senha" value="#{loginBean.senha}" />
-						<p:message for="senha" />
+                        <h:panelGrid columns="3">
 
-						<p:commandButton value="Entrar" action="#{loginBean.logar()}"
-							update="@all" />
+                            <label for="login">Login: </label>
+                            <p:inputText id="login" value="#{loginBean.usuario.login}" />
+                            <p:message for="login" />
 
-						<p:button href="http://efika/web/" value="Resetar Senha"
-							target="_blank" />
+                            <label for="senha">Senha: </label>
+                            <p:password id="senha" value="#{loginBean.senha}" />
+                            <p:message for="senha" />
 
-					</h:panelGrid>
+                            <p:commandButton value="Entrar" action="#{loginBean.logar()}"
+                                             update="@all" />
 
-				</p:outputPanel>
+                            <p:button href="http://efika/web/" value="Resetar Senha"
+                                      target="_blank" />
 
-				<p:outputPanel rendered="#{loginBean.logado}">
+                        </h:panelGrid>
 
-					<p:commandButton value="Sair" action="#{loginBean.deslogar()}"
-						update="@all" />
+                    </p:outputPanel>
 
-				</p:outputPanel>
+                    <p:outputPanel rendered="#{loginBean.logado}">
 
-			</p:panel>
+                        <p:commandButton value="Sair" action="#{loginBean.deslogar()}"
+                                         update="@all" />
 
-		</h:form>
+                    </p:outputPanel>
 
-	</ui:define>
-</ui:composition>
+                </p:panel>
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
 </html>

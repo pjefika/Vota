@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
-<f:metadata>
+    <f:metadata>
 
-	<f:viewParam name="path" value="#{dadosBean.path}" />
+        <f:viewParam name="path" value="#{dadosBean.path}" />
 
-</f:metadata>
+    </f:metadata>
 
-<img src="data:image/jpg;base64, #{dadosBean.imgFull()}" width="800"
-	height="600" />
+    <img src="data:image/jpg;base64, #{dadosBean.imgFull()}" width="800"
+         height="600" />
 
 </html>

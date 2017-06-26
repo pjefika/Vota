@@ -17,80 +17,80 @@ import entidades.Votado;
 @Stateless
 public class VotadoServico {
 
-	@PersistenceContext(unitName = "vu")
-	private EntityManager entityManager;
+    @PersistenceContext(unitName = "vu")
+    private EntityManager entityManager;
 
-	public void votar(Dados dados, UsuarioEfika usuarioEfika) throws Exception {
+    public void votar(Dados dados, UsuarioEfika usuarioEfika) throws Exception {
 
-		try {
-						
-			Votado votado = new Votado();			
-			Date date = new Date();			
-			
-			votado.setDataDoVoto(date);
-			votado.setDados(dados);
-			votado.setUsuarioEfika(usuarioEfika);
-			this.entityManager.persist(votado);
-			
-		} catch (Exception e) {
-			
-			System.out.println(e.getMessage());
+        try {
 
-			throw new Exception("Erro ao Votar");
+            Votado votado = new Votado();
+            Date date = new Date();
 
-		}
+            votado.setDataDoVoto(date);
+            votado.setDados(dados);
+            votado.setUsuarioEfika(usuarioEfika);
+            this.entityManager.persist(votado);
 
-	}
+        } catch (Exception e) {
 
-	@SuppressWarnings("unchecked")
-	public List<Votado> listarVotos(Dados dados) {
+            System.out.println(e.getMessage());
 
-		try {
+            throw new Exception("Erro ao Votar");
 
-			Query query = this.entityManager.createQuery("FROM Votado v WHERE v.dados =:param1");
-			query.setParameter("param1", dados);						
-			return query.getResultList();
+        }
 
-		} catch (Exception e) {
+    }
 
-			return new ArrayList<Votado>();
+    @SuppressWarnings("unchecked")
+    public List<Votado> listarVotos(Dados dados) {
 
-		}
+        try {
 
-	}
+            Query query = this.entityManager.createQuery("FROM Votado v WHERE v.dados =:param1");
+            query.setParameter("param1", dados);
+            return query.getResultList();
 
-	public Votado listarVotoEspecifico(UsuarioEfika usuarioEfika, Dados dados, Celula celula) {
+        } catch (Exception e) {
 
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM Votado v WHERE v.usuarioEfika =:param1 AND v.dados.celula =:param2");
-			query.setParameter("param1", usuarioEfika);
-			query.setParameter("param2", celula);
-			return (Votado) query.getSingleResult();
+            return new ArrayList<Votado>();
 
-		} catch (Exception e) {
+        }
 
-			return new Votado();
+    }
 
-		}
+    public Votado listarVotoEspecifico(UsuarioEfika usuarioEfika, Dados dados, Celula celula) {
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Votado> listaVotado(Dados dados) {
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM Votado v WHERE v.dados =:param1");
-			query.setParameter("param1", dados);						
-			return query.getResultList();
-			
-		} catch (Exception e) {
+        try {
 
-			return new ArrayList<Votado>();
-			
-		}
-		
-	}
+            Query query = this.entityManager.createQuery("FROM Votado v WHERE v.usuarioEfika =:param1 AND v.dados.celula =:param2");
+            query.setParameter("param1", usuarioEfika);
+            query.setParameter("param2", celula);
+            return (Votado) query.getSingleResult();
+
+        } catch (Exception e) {
+
+            return new Votado();
+
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Votado> listaVotado(Dados dados) {
+
+        try {
+
+            Query query = this.entityManager.createQuery("FROM Votado v WHERE v.dados =:param1");
+            query.setParameter("param1", dados);
+            return query.getResultList();
+
+        } catch (Exception e) {
+
+            return new ArrayList<Votado>();
+
+        }
+
+    }
 
 }

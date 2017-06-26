@@ -16,143 +16,141 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 @Named
 @SessionScoped
-public class LoginBean implements Serializable{
+public class LoginBean implements Serializable {
 
-	private UsuarioEfika usuario;
+    private UsuarioEfika usuario;
 
-	private Usuario usuarioWS;
+    private Usuario usuarioWS;
 
-	private String senha;
-	
-	private String pagina;
-	
-	@EJB
-	private LoginServico servicoLogin;
+    private String senha;
 
-	private boolean logado;
+    private String pagina;
 
-	public LoginBean() {
-		this.usuario = new UsuarioEfika();
-		this.logado = false;
-	}
+    @EJB
+    private LoginServico servicoLogin;
 
-	public void validarLogin() {
-				
-		FacesContext fc = FacesContext.getCurrentInstance();
-		
-		if (!this.logado){
-			
-			ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler)
-					fc.getApplication().getNavigationHandler();
-			nav.performNavigation("index.jsf");
-		}
-		
-	}	
-	
-	public String logar() {
+    private boolean logado;
 
-		try {
-			
-			String usuarioUpper = this.usuario.getLogin().toUpperCase();
-			
-			this.usuario.setLogin(usuarioUpper);
+    public LoginBean() {
+        this.usuario = new UsuarioEfika();
+        this.logado = false;
+    }
 
-			this.usuarioWS = this.servicoLogin.buscaLoginWS(this.usuario.getLogin());
-			this.servicoLogin.autenticaLogin(this.usuarioWS, this.senha);
+    public void validarLogin() {
 
-			this.logado = true;			
-			return "eventos.jsf"; 
+        FacesContext fc = FacesContext.getCurrentInstance();
 
-		} catch (Exception e) {
+        if (!this.logado) {
 
-			JSFUtil.addErrorMessage(e.getMessage());
-			this.usuario = new UsuarioEfika();
-			return "";
+            ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+            nav.performNavigation("index.jsf");
+        }
 
-		}
+    }
 
-	}
+    public String logar() {
 
-	public void deslogar() {
+        try {
 
-		this.usuario = new UsuarioEfika();
-		this.logado = false;
+            String usuarioUpper = this.usuario.getLogin().toUpperCase();
 
-	}
-	
-	public void validaPagina(String pagina) {
-				
-		this.pagina = pagina;
-		
-	}
-	
-	public Boolean validaSeAdm() {
-		
-		Boolean adm = false;
-		
-		if (this.logado) {
-						
-			this.usuario = this.servicoLogin.buscaUsuario(this.usuario);
-						
-			adm = this.usuario.getAdm();
-									
-		}
-		
-		return adm;
-		
-	}
-	
-	public void redirecionaIndex(Boolean param) {
-				
-		FacesContext fc = FacesContext.getCurrentInstance();
-		
-		if (!param){
-						
-			ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler)
-					fc.getApplication().getNavigationHandler();
-			nav.performNavigation("restrito.jsf");
-		}
-		
-	}
+            this.usuario.setLogin(usuarioUpper);
 
-	public UsuarioEfika getUsuario() {
-		return usuario;
-	}
+            this.usuarioWS = this.servicoLogin.buscaLoginWS(this.usuario.getLogin());
+            this.servicoLogin.autenticaLogin(this.usuarioWS, this.senha);
 
-	public void setUsuario(UsuarioEfika usuario) {
-		this.usuario = usuario;
-	}
+            this.logado = true;
+            return "eventos.jsf";
 
-	public boolean isLogado() {
-		return logado;
-	}
+        } catch (Exception e) {
 
-	public void setLogado(boolean logado) {
-		this.logado = logado;
-	}
+            JSFUtil.addErrorMessage(e.getMessage());
+            this.usuario = new UsuarioEfika();
+            return "";
 
-	public String getSenha() {
-		return senha;
-	}
+        }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    }
 
-	public Usuario getUsuarioWS() {
-		return usuarioWS;
-	}
+    public void deslogar() {
 
-	public void setUsuarioWS(Usuario usuarioWS) {
-		this.usuarioWS = usuarioWS;
-	}
+        this.usuario = new UsuarioEfika();
+        this.logado = false;
 
-	public String getPagina() {
-		return pagina;
-	}
+    }
 
-	public void setPagina(String pagina) {
-		this.pagina = pagina;
-	}
+    public void validaPagina(String pagina) {
+
+        this.pagina = pagina;
+
+    }
+
+    public Boolean validaSeAdm() {
+
+        Boolean adm = false;
+
+        if (this.logado) {
+
+            this.usuario = this.servicoLogin.buscaUsuario(this.usuario);
+
+            adm = this.usuario.getAdm();
+
+        }
+
+        return adm;
+
+    }
+
+    public void redirecionaIndex(Boolean param) {
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+
+        if (!param) {
+
+            ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+            nav.performNavigation("restrito.jsf");
+        }
+
+    }
+
+    public UsuarioEfika getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEfika usuario) {
+        this.usuario = usuario;
+    }
+
+    public boolean isLogado() {
+        return logado;
+    }
+
+    public void setLogado(boolean logado) {
+        this.logado = logado;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Usuario getUsuarioWS() {
+        return usuarioWS;
+    }
+
+    public void setUsuarioWS(Usuario usuarioWS) {
+        this.usuarioWS = usuarioWS;
+    }
+
+    public String getPagina() {
+        return pagina;
+    }
+
+    public void setPagina(String pagina) {
+        this.pagina = pagina;
+    }
 
 }

@@ -1,81 +1,81 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/recursos/template/template.xhtml">
+    <ui:composition template="/recursos/template/template.xhtml">
 
-	<ui:define name="tituloPagina">
-		 Início
-	</ui:define>
-	<ui:define name="tituloPrincipal">
-		<i class="fa fa-list"> </i> Eventos</ui:define>
-	<ui:define name="tituloSecundario"></ui:define>
+        <ui:define name="tituloPagina">
+            Início
+        </ui:define>
+        <ui:define name="tituloPrincipal">
+            <i class="fa fa-list"> </i> Eventos</ui:define>
+        <ui:define name="tituloSecundario"></ui:define>
 
-	<ui:define name="botoesAcao"></ui:define>
+        <ui:define name="botoesAcao"></ui:define>
 
-	<ui:insert name="eventos">
-		<f:metadata>
+        <ui:insert name="eventos">
+            <f:metadata>
 
-			<f:event listener="#{loginBean.validaPagina('')}"
-				type="preRenderView" />
+                <f:event listener="#{loginBean.validaPagina('')}"
+                         type="preRenderView" />
 
-			<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+                <f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
 
-		</f:metadata>
-	</ui:insert>
+            </f:metadata>
+        </ui:insert>
 
-	<ui:define name="conteudo">
+        <ui:define name="conteudo">
 
-		<p:panel header="Lista de Eventos">
+            <p:panel header="Lista de Eventos">
 
-			<p:dataTable var="event" value="#{eventoBean.listarEvento()}"
-				filteredValue="#{eventoBean.eventosFiltrados}"
-				emptyMessage="Não há eventos cadastrados" style="text-align:center;">
+                <p:dataTable var="event" value="#{eventoBean.listarEvento()}"
+                             filteredValue="#{eventoBean.eventosFiltrados}"
+                             emptyMessage="Não há eventos cadastrados" style="text-align:center;">
 
-				<p:column headerText="Nome" filterBy="#{event.nome}"
-					filterMatchMode="contains">
+                    <p:column headerText="Nome" filterBy="#{event.nome}"
+                              filterMatchMode="contains">
 
-					<h:outputText value="#{event.nome}" />
+                        <h:outputText value="#{event.nome}" />
 
-				</p:column>
+                    </p:column>
 
-				<p:column headerText="Data Inicio" sortBy="#{event.dataEvento}">
+                    <p:column headerText="Data Inicio" sortBy="#{event.dataEvento}">
 
-					<h:outputText value="#{event.dataEvento}">
+                        <h:outputText value="#{event.dataEvento}">
 
-						<f:convertDateTime pattern="dd/MM/yyyy" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
 
-					</h:outputText>
+                        </h:outputText>
 
-				</p:column>
-				
-				<p:column headerText="Data Fim" sortBy="#{event.dataFim}">
+                    </p:column>
 
-					<h:outputText value="#{event.dataFim}">
+                    <p:column headerText="Data Fim" sortBy="#{event.dataFim}">
 
-						<f:convertDateTime pattern="dd/MM/yyyy" />
+                        <h:outputText value="#{event.dataFim}">
 
-					</h:outputText>
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
 
-				</p:column>
+                        </h:outputText>
 
-				<p:column headerText="Ações">
+                    </p:column>
 
-					<p:button outcome="detEvento" value="Clique aqui para votar" style="color: #e8eaed; background-color: #2d74e5;" >
+                    <p:column headerText="Ações">
 
-						<f:param name="event" value="#{event.id}" />
+                        <p:button outcome="detEvento" value="Clique aqui para votar" style="color: #e8eaed; background-color: #2d74e5;" >
 
-					</p:button>
+                            <f:param name="event" value="#{event.id}" />
 
-				</p:column>
+                        </p:button>
 
-			</p:dataTable>
+                    </p:column>
 
-		</p:panel>
+                </p:dataTable>
 
-	</ui:define>
-</ui:composition>
+            </p:panel>
+
+        </ui:define>
+    </ui:composition>
 </html>

@@ -15,112 +15,112 @@ import util.JSFUtil;
 @ViewScoped
 public class EventoBean {
 
-	@ManagedProperty(value="#{loginBean}")
-	private LoginBean sessao;
+    @ManagedProperty(value = "#{loginBean}")
+    private LoginBean sessao;
 
-	private Evento evento;
+    private Evento evento;
 
-	private Evento eventoModifica;
+    private Evento eventoModifica;
 
-	private List<Evento> eventosFiltrados;
+    private List<Evento> eventosFiltrados;
 
-	@EJB
-	private EventoServico eventoServico;
+    @EJB
+    private EventoServico eventoServico;
 
-	public EventoBean() {
+    public EventoBean() {
 
-		this.evento = new Evento();
+        this.evento = new Evento();
 
-		this.eventoModifica = new Evento();
-		
-	}
+        this.eventoModifica = new Evento();
 
-	public void cadastrarEvento() {
+    }
 
-		try {
+    public void cadastrarEvento() {
 
-			this.eventoServico.criaEvento(this.evento, this.sessao.getUsuario());
+        try {
 
-			this.evento = new Evento();
+            this.eventoServico.criaEvento(this.evento, this.sessao.getUsuario());
 
-			JSFUtil.addInfoMessage("Evento cadastrado com sucesso.");
+            this.evento = new Evento();
 
-		} catch (Exception e) {
+            JSFUtil.addInfoMessage("Evento cadastrado com sucesso.");
 
-			JSFUtil.addErrorMessage(e.getMessage());
+        } catch (Exception e) {
 
-		}
+            JSFUtil.addErrorMessage(e.getMessage());
 
-	}
+        }
 
-	public List<Evento> listarEvento() {
+    }
 
-		return this.eventoServico.listarEvento();
+    public List<Evento> listarEvento() {
 
-	}
+        return this.eventoServico.listarEvento();
 
-	public List<Evento> listarTodosEventos() {
-		
-		this.eventosFiltrados = this.eventoServico.listarTodosEventos();
+    }
 
-		return this.eventosFiltrados;
+    public List<Evento> listarTodosEventos() {
 
-	}
+        this.eventosFiltrados = this.eventoServico.listarTodosEventos();
 
-	public void modificarEvento() {
+        return this.eventosFiltrados;
 
-		try {
+    }
 
-			this.eventoServico.modificarEvento(this.eventoModifica);
-			
-			JSFUtil.addInfoMessage("Evento modificado com sucesso.");
+    public void modificarEvento() {
 
-			this.eventoModifica = new Evento();
+        try {
 
-		} catch (Exception e) {
+            this.eventoServico.modificarEvento(this.eventoModifica);
 
-			JSFUtil.addErrorMessage(e.getMessage());
+            JSFUtil.addInfoMessage("Evento modificado com sucesso.");
 
-		}
+            this.eventoModifica = new Evento();
 
-	}
+        } catch (Exception e) {
 
-	public void listarEventoEspecifico() {
+            JSFUtil.addErrorMessage(e.getMessage());
 
-		this.evento = this.eventoServico.listarEventoEspecifico(this.evento);
+        }
 
-	}	
-	
-	public Evento getEvento() {
-		return evento;
-	}
+    }
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-	}
+    public void listarEventoEspecifico() {
 
-	public LoginBean getSessao() {
-		return sessao;
-	}
+        this.evento = this.eventoServico.listarEventoEspecifico(this.evento);
 
-	public void setSessao(LoginBean sessao) {
-		this.sessao = sessao;
-	}	
+    }
 
-	public List<Evento> getEventosFiltrados() {
-		return eventosFiltrados;
-	}
+    public Evento getEvento() {
+        return evento;
+    }
 
-	public void setEventosFiltrados(List<Evento> eventosFiltrados) {
-		this.eventosFiltrados = eventosFiltrados;
-	}
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
 
-	public Evento getEventoModifica() {
-		return eventoModifica;
-	}
+    public LoginBean getSessao() {
+        return sessao;
+    }
 
-	public void setEventoModifica(Evento eventoModifica) {
-		this.eventoModifica = eventoModifica;
-	}		
+    public void setSessao(LoginBean sessao) {
+        this.sessao = sessao;
+    }
+
+    public List<Evento> getEventosFiltrados() {
+        return eventosFiltrados;
+    }
+
+    public void setEventosFiltrados(List<Evento> eventosFiltrados) {
+        this.eventosFiltrados = eventosFiltrados;
+    }
+
+    public Evento getEventoModifica() {
+        return eventoModifica;
+    }
+
+    public void setEventoModifica(Evento eventoModifica) {
+        this.eventoModifica = eventoModifica;
+    }
 
 }

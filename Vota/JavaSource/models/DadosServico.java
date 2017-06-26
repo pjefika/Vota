@@ -18,137 +18,137 @@ import org.primefaces.model.UploadedFile;
 import entidades.Celula;
 import entidades.Dados;
 import entidades.Evento;
+import org.apache.axis.encoding.Base64;
 import util.JSFUtil;
 
 @Stateless
 public class DadosServico {
 
-	@PersistenceContext(unitName = "vu")
-	private EntityManager entityManager;
+    @PersistenceContext(unitName = "vu")
+    private EntityManager entityManager;
 
-	public void uploadImg(UploadedFile file, Evento evento, Celula celula) throws Exception {
+    public void uploadImg(UploadedFile file, Evento evento, Celula celula) throws Exception {
 
-		try {			
+        try {
 
-			byte[] conteudo = file.getContents();
-			
-			String extencion = file.getFileName().substring(file.getFileName().lastIndexOf('.'), file.getFileName().length());
+            byte[] conteudo = file.getContents();
 
-			String path = "C:\\UploadedFiles\\" + JSFUtil.gerarStringAleatoria(6) + extencion;
-			
-			FileOutputStream fos = new FileOutputStream(path);
+            String imgBase64 = Base64.encode(conteudo);
+//            System.out.println(imgBase64);
+//            String extencion = file.getFileName().substring(file.getFileName().lastIndexOf('.'), file.getFileName().length());
+//
+//            String path = "C:\\UploadedFiles\\" + JSFUtil.gerarStringAleatoria(6) + extencion;
+//
+//            FileOutputStream fos = new FileOutputStream(path);
+//
+//            fos.write(conteudo);
+//            fos.close();
+            this.cadastraDados(evento, imgBase64, file.getFileName(), celula);
 
-			fos.write(conteudo);		
-			fos.close();
+        } catch (Exception e) {
 
-			this.cadastraDados(evento, path, file.getFileName(), celula);
+            throw new Exception(e.getMessage());
 
-		} catch (Exception e) {
+        }
 
-			throw new Exception(e.getMessage());
+    }
 
-		}
+    public void cadastraDados(Evento evento, String img, String nome, Celula celula) throws Exception {
 
-	}
-	
-	
+        try {
 
-	public void cadastraDados(Evento evento, String img, String nome, Celula celula) throws Exception {
+            Dados dados = new Dados();
 
-		try {
+            dados.setEvento(evento);
+            dados.setImg(img);
+            dados.setNome(nome);
+            dados.setCelula(celula);
 
-			Dados dados = new Dados();			
+            this.entityManager.persist(dados);
 
-			dados.setEvento(evento);
-			dados.setImg(img);
-			dados.setNome(nome);
-			dados.setCelula(celula);
+        } catch (Exception e) {
 
-			this.entityManager.persist(dados);
+            throw new Exception("Erro ao cadastrar.");
 
-		} catch (Exception e) {
+        }
 
-			throw new Exception("Erro ao cadastrar.");
+    }
 
-		}
+    public void removerImg(Dados dados) throws Exception {
 
-	}
+        try {
 
-	public void removerImg(Dados dados) throws Exception {
+            this.removerDados(dados);
 
-		try {
+            File file = new File(dados.getImg());
 
-			this.removerDados(dados);
+            if (file.exists()) {
 
-			File file = new File(dados.getImg());
+                file.delete();
 
-			if (file.exists()) {
+            }
 
-				file.delete();
+        } catch (Exception e) {
 
-			}
+            throw new Exception(e.getMessage());
 
-		} catch (Exception e) {
+        }
 
-			throw new Exception(e.getMessage());
+    }
 
-		}
+    public void removerDados(Dados dados) throws Exception {
 
-	}
+        try {
 
-	public void removerDados(Dados dados) throws Exception {
+            this.entityManager.remove(this.entityManager.contains(dados) ? dados : this.entityManager.merge(dados));
 
-		try {
+        } catch (Exception e) {
 
-			this.entityManager.remove(this.entityManager.contains(dados) ? dados : this.entityManager.merge(dados));
-			
-		} catch (Exception e) {
+            throw new Exception(e.getMessage());
 
-			throw new Exception(e.getMessage());
+        }
 
-		}
+    }
 
-	}
+    @SuppressWarnings("unchecked")
+    public List<Dados> listarDados(Evento evento, Celula celula) {
 
-	@SuppressWarnings("unchecked")
-	public List<Dados> listarDados(Evento evento, Celula celula) {
+        try {
 
-		try {
+            Query query = this.entityManager.createQuery("FROM Dados d WHERE d.evento =:param1 AND d.celula =:param2");
+            query.setParameter("param1", evento);
+            query.setParameter("param2", celula);
 
-			Query query = this.entityManager.createQuery("FROM Dados d WHERE d.evento =:param1 AND d.celula =:param2");
-			query.setParameter("param1", evento);
-			query.setParameter("param2", celula);
-						
-			return query.getResultList();
+            return query.getResultList();
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			return new ArrayList<Dados>();
+            return new ArrayList<Dados>();
 
-		}
+        }
 
-	}
-	
-	public String trataImg(String path) throws Exception {
-		
-		try {
-			
-			BufferedImage bImage = ImageIO.read(new File(path));
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write( bImage, "jpg", baos );
-			baos.flush();
-			byte[] imageInByteArray = baos.toByteArray();
-			baos.close();
-			String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
-			
-			return b64;	
-			
-		} catch (Exception e) {
+    }
 
-			throw new Exception(e.getMessage());
-			
-		}
-		
-	}
+    public String trataImg(String path) throws Exception {
+
+        try {
+
+            BufferedImage bImage = ImageIO.read(new File(path));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "jpg", baos);
+            baos.flush();
+            byte[] imageInByteArray = baos.toByteArray();
+            baos.close();
+            String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+
+            return b64;
+
+        } catch (Exception e) {
+
+            throw new Exception(e.getMessage());
+
+        }
+
+    }
 
 }

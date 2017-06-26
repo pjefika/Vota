@@ -1,126 +1,127 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/recursos/template/template.xhtml">
+    <ui:composition template="/recursos/template/template.xhtml">
 
-	<ui:define name="tituloPagina">
-		 Gerenciar Evento
-	</ui:define>
-	<ui:define name="tituloPrincipal">
-		<i class="fa fa-cogs"> </i> Gerenciar Evento</ui:define>
-	<ui:define name="tituloSecundario"></ui:define>
+        <ui:define name="tituloPagina">
+            Gerenciar Evento
+        </ui:define>
+        <ui:define name="tituloPrincipal">
+            <i class="fa fa-cogs"> </i> Gerenciar Evento</ui:define>
+        <ui:define name="tituloSecundario"></ui:define>
 
-	<ui:define name="botoesAcao"></ui:define>
+        <ui:define name="botoesAcao"></ui:define>
 
-	<ui:insert name="eventos">
-		<f:metadata>
+        <ui:insert name="eventos">
+            <f:metadata>
 
-			<f:event listener="#{loginBean.validaPagina('')}"
-				type="preRenderView" />			
+                <f:event listener="#{loginBean.validaPagina('')}"
+                         type="preRenderView" />			
 
-			<f:event
-				listener="#{loginBean.redirecionaIndex(loginBean.validaSeAdm())}"
-				type="preRenderView" />
-				
-			<f:viewParam name="event" value="#{dadosBean.evento.id}" />
+                <f:event
+                    listener="#{loginBean.redirecionaIndex(loginBean.validaSeAdm())}"
+                    type="preRenderView" />
 
-		</f:metadata>
-	</ui:insert>
+                <f:viewParam name="event" value="#{dadosBean.evento.id}" />
 
-	<ui:define name="conteudo">
+            </f:metadata>
+        </ui:insert>
 
-		<p:panel header="Eventos">
+        <ui:define name="conteudo">
 
-			<h:panelGroup>
-							
-				<h:outputText value="Selecione a celula: " />
-				<br />
-				<p:selectOneMenu value="#{dadosBean.celula}" filter="true"
-					filterMatchMode="contains"
-					converter="omnifaces.SelectItemsConverter">
+            <p:panel header="Eventos">
 
-					<f:selectItem itemLabel=" -- Selecione -- "
-						noSelectionOption="true" />
+                <h:panelGroup>
 
-					<f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
-						var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
+                    <h:outputText value="Selecione a celula: " />
+                    <br />
+                    <p:selectOneMenu value="#{dadosBean.celula}" filter="true"
+                                     filterMatchMode="contains"
+                                     converter="omnifaces.SelectItemsConverter">
 
-				</p:selectOneMenu>
-				<br />
+                        <f:selectItem itemLabel=" -- Selecione -- "
+                                      noSelectionOption="true" />
 
-				<p:commandButton value="Buscar" update="infoEvento">
+                        <f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
+                                       var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
 
-					<p:ajaxStatus onstart="PF('loadingDialogInfo').show();"
-						onsuccess="PF('loadingDialogInfo').hide();" />
+                    </p:selectOneMenu>
+                    <br />
 
-				</p:commandButton>
+                    <p:commandButton value="Buscar" update="infoEvento">
 
-			</h:panelGroup>
+                        <p:ajaxStatus onstart="PF('loadingDialogInfo').show();"
+                                      onsuccess="PF('loadingDialogInfo').hide();" />
 
-			<br />
-			<br />
+                    </p:commandButton>
 
-			<p:fileUpload fileUploadListener="#{dadosBean.cadastrarDados}"
-				label="Escolher arquivo" cancelLabel="Cancelar" fileLimit="50"
-				multiple="true" sizeLimit="5000000" dragDropSupport="true"
-				mode="advanced" style="width: 100%;" update="infoEvento @form:msgs"
-				owTypes="/(\.|\/)(jpe?g)$/" />
+                </h:panelGroup>
 
-		</p:panel>
+                <br />
+                <br />
 
-		<br />
+                <p:fileUpload fileUploadListener="#{dadosBean.cadastrarDados}"
+                              label="Escolher arquivo" cancelLabel="Cancelar" fileLimit="50"
+                              multiple="true" sizeLimit="5000000" dragDropSupport="true"
+                              mode="advanced" style="width: 100%;" update="infoEvento @form:msgs"
+                              allowTypes="/(\.|\/)(jpe?g)$/" />
 
-		<p:panel header="Dados">
+            </p:panel>
 
-			<p:dataGrid value="#{dadosBean.listarDados()}" var="dados"
-				id="infoEvento" columns="4" layout="grid" style="widht: 100%"
-				emptyMessage="Por favor realize a consulta para mostrar as imagens">
+            <br />
 
-				<p:panel header="#{dados.nome}">
+            <p:panel header="Dados">
 
-					<h:panelGrid columns="1">
+                <p:dataGrid value="#{dadosBean.listarDados()}" var="dados"
+                            id="infoEvento" columns="4" layout="grid" style="widht: 100%"
+                            emptyMessage="Por favor realize a consulta para mostrar as imagens">
 
-						<p:commandButton icon="ui-icon-trash"
-							action="#{dadosBean.removerImg(dados)}" update="infoEvento">
+                    <p:panel header="#{dados.nome}">
 
-							<p:confirm header="Remover Imagem"
-								message="Você tem certeza que deseja remover a Imagem"
-								icon="ui-icon-alert" />
+                        <h:panelGrid columns="1">
+                            <img src="data:image/jpg;base64, #{dados.img}" width="280" height="150" />
 
-						</p:commandButton>
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{dadosBean.removerImg(dados)}" update="infoEvento">
 
-					</h:panelGrid>
+                                <p:confirm header="Remover Imagem"
+                                           message="Você tem certeza que deseja remover a Imagem"
+                                           icon="ui-icon-alert" />
 
-				</p:panel>
+                            </p:commandButton>
 
-			</p:dataGrid>
+                        </h:panelGrid>
 
-		</p:panel>
+                    </p:panel>
 
-		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
-			style="text-align: center;">
+                </p:dataGrid>
 
-			<p:commandButton value="Sim" type="button"
-				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-			<p:commandButton value="Não" type="button"
-				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:panel>
 
-		</p:confirmDialog>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+                             style="text-align: center;">
 
-		<p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
-			resizable="false" width="260" height="25" minWidth="260"
-			minHeight="25" showEffect="fade" hideEffect="fade" modal="true"
-			closable="false">
+                <p:commandButton value="Sim" type="button"
+                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button"
+                                 styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 
-			<img id="j_idt17:form:j_idt45"
-				src="/Vota/recursos/images/ajax-loader.gif" alt="" />
+            </p:confirmDialog>
 
-		</p:dialog>
+            <p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
+                      resizable="false" width="260" height="25" minWidth="260"
+                      minHeight="25" showEffect="fade" hideEffect="fade" modal="true"
+                      closable="false">
 
-	</ui:define>
-</ui:composition>
+                <img id="j_idt17:form:j_idt45"
+                     src="/Vota/recursos/images/ajax-loader.gif" alt="" />
+
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
 </html>

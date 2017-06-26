@@ -14,89 +14,89 @@ import entidades.UsuarioEfika;
 @Stateless
 public class EventoServico {
 
-	@PersistenceContext(unitName = "vu")
-	private EntityManager entityManager;
+    @PersistenceContext(unitName = "vu")
+    private EntityManager entityManager;
 
-	public void criaEvento(Evento evento, UsuarioEfika usuarioEfika) throws Exception {
+    public void criaEvento(Evento evento, UsuarioEfika usuarioEfika) throws Exception {
 
-		try {
+        try {
 
-			evento.setUsuarioEfika(usuarioEfika);
+            evento.setUsuarioEfika(usuarioEfika);
 
-			this.entityManager.persist(evento);
-			
-		} catch (Exception e) {
+            this.entityManager.persist(evento);
 
-			throw new Exception("Erro ao cadastrar");
+        } catch (Exception e) {
 
-		}
+            throw new Exception("Erro ao cadastrar");
 
-	}
+        }
 
-	@SuppressWarnings("unchecked")
-	public List<Evento> listarEvento() {
+    }
 
-		try {
+    @SuppressWarnings("unchecked")
+    public List<Evento> listarEvento() {
 
-			Query query = this.entityManager.createQuery("FROM Evento e WHERE e.ativo =:param1");
-			query.setParameter("param1", true);
-						
-			return query.getResultList();
+        try {
 
-		} catch (Exception e) {
+            Query query = this.entityManager.createQuery("FROM Evento e WHERE e.ativo =:param1");
+            query.setParameter("param1", true);
 
-			return new ArrayList<Evento>();
+            return query.getResultList();
 
-		}
+        } catch (Exception e) {
 
-	}
+            return new ArrayList<Evento>();
 
-	@SuppressWarnings("unchecked")
-	public List<Evento> listarTodosEventos() {
+        }
 
-		try {
+    }
 
-			Query query = this.entityManager.createQuery("FROM Evento e");
-						
-			return query.getResultList();
+    @SuppressWarnings("unchecked")
+    public List<Evento> listarTodosEventos() {
 
-		} catch (Exception e) {
+        try {
 
-			return new ArrayList<Evento>();
+            Query query = this.entityManager.createQuery("FROM Evento e");
 
-		}
+            return query.getResultList();
 
-	}
-	
-	public Evento listarEventoEspecifico(Evento evento) {
+        } catch (Exception e) {
 
-		try {
+            return new ArrayList<Evento>();
 
-			Query query = this.entityManager.createQuery("FROM Evento e WHERE e.id =:param1");
-			query.setParameter("param1", evento.getId());
-						
-			return (Evento) query.getSingleResult();
+        }
 
-		} catch (Exception e) {
+    }
 
-			return null;
+    public Evento listarEventoEspecifico(Evento evento) {
 
-		}
+        try {
 
-	}
-	
-	public void modificarEvento(Evento evento) throws Exception {
-		
-		try {
-			
-			this.entityManager.merge(evento);
-						
-		} catch (Exception e) {
+            Query query = this.entityManager.createQuery("FROM Evento e WHERE e.id =:param1");
+            query.setParameter("param1", evento.getId());
 
-			throw new Exception("Erro ao modificar Evento");
-			
-		}
-		
-	}
+            return (Evento) query.getSingleResult();
+
+        } catch (Exception e) {
+
+            return null;
+
+        }
+
+    }
+
+    public void modificarEvento(Evento evento) throws Exception {
+
+        try {
+
+            this.entityManager.merge(evento);
+
+        } catch (Exception e) {
+
+            throw new Exception("Erro ao modificar Evento");
+
+        }
+
+    }
 
 }

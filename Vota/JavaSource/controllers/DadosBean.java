@@ -24,167 +24,167 @@ import util.JSFUtil;
 @ViewScoped
 public class DadosBean {
 
-	private Evento evento;
+    private Evento evento;
 
-	private Dados dados;
+    private Dados dados;
 
-	private Celula celula;
+    private Celula celula;
 
-	private List<Dados> dadosFiltrados;
-	
-	private Dados dadosFiltro;
+    private List<Dados> dadosFiltrados;
 
-	private String path;
+    private Dados dadosFiltro;
 
-	@EJB
-	private DadosServico dadosServico;
+    private String path;
 
-	public DadosBean() {
+    @EJB
+    private DadosServico dadosServico;
 
-		this.dados = new Dados();
+    public DadosBean() {
 
-		this.evento = new Evento();
+        this.dados = new Dados();
 
-		this.celula = new Celula();
+        this.evento = new Evento();
 
-	}
+        this.celula = new Celula();
 
-	public void cadastrarDados(FileUploadEvent event) {
+    }
 
-		UploadedFile file = event.getFile();
+    public void cadastrarDados(FileUploadEvent event) {
 
-		try {
+        UploadedFile file = event.getFile();
 
-			if (this.evento != null && !this.celula.getNome().isEmpty()) {
+        try {
 
-				this.dadosServico.uploadImg(file, this.evento, this.celula);
+            if (this.evento != null && !this.celula.getNome().isEmpty()) {
 
-				JSFUtil.addInfoMessage("Cadastrado com sucesso.");
+                this.dadosServico.uploadImg(file, this.evento, this.celula);
 
-			} else { 
+                JSFUtil.addInfoMessage("Cadastrado com sucesso.");
 
-				JSFUtil.addErrorMessage("Por favor selecione o Evento/Celula.");
+            } else {
 
-			}			
+                JSFUtil.addErrorMessage("Por favor selecione o Evento/Celula.");
 
-		} catch (Exception e) {
+            }
 
-			JSFUtil.addErrorMessage(e.getMessage());
+        } catch (Exception e) {
 
-		}
+            JSFUtil.addErrorMessage(e.getMessage());
 
-	}
+        }
 
-	public void removerImg(Dados dados) {
+    }
 
-		try {
+    public void removerImg(Dados dados) {
 
-			this.dadosServico.removerImg(dados);
+        try {
 
-			JSFUtil.addInfoMessage("Removido com sucesso.");
+            this.dadosServico.removerImg(dados);
 
-		} catch (Exception e) {
+            JSFUtil.addInfoMessage("Removido com sucesso.");
 
-			JSFUtil.addErrorMessage(e.getMessage());
+        } catch (Exception e) {
 
-		}
+            JSFUtil.addErrorMessage(e.getMessage());
 
-	}
+        }
 
-	public List<Dados> listarDados() {
+    }
 
-		this.dadosFiltrados = this.dadosServico.listarDados(this.evento, this.celula);
+    public List<Dados> listarDados() {
 
-		return this.dadosFiltrados;
+        this.dadosFiltrados = this.dadosServico.listarDados(this.evento, this.celula);
 
-	}
+        return this.dadosFiltrados;
 
-	public void listarDadosAction() {
+    }
 
-		this.dadosFiltrados = this.dadosServico.listarDados(this.evento, this.celula);
+    public void listarDadosAction() {
 
-	}	
+        this.dadosFiltrados = this.dadosServico.listarDados(this.evento, this.celula);
 
-	public String getImgThumb(String path) throws Exception {
+    }
 
-		BufferedImage originalImage = ImageIO.read(new File(path));
+    public String getImgThumb(String path) throws Exception {
 
-		BufferedImage thumbnail = Thumbnails.of(originalImage)
-				.size(200, 200)
-				.asBufferedImage();
+        BufferedImage originalImage = ImageIO.read(new File(path));
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(thumbnail, "jpg", baos );
-		baos.flush();
-		byte[] imageInByteArray = baos.toByteArray();
-		baos.close();
-		String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+        BufferedImage thumbnail = Thumbnails.of(originalImage)
+                .size(200, 200)
+                .asBufferedImage();
 
-		return b64;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(thumbnail, "jpg", baos);
+        baos.flush();
+        byte[] imageInByteArray = baos.toByteArray();
+        baos.close();
+        String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
 
-	}
+        return b64;
 
-	public String imgFull() {
-		
-		try {
-						
-			return this.dadosServico.trataImg(this.dadosFiltro.getImg());
-			
-		} catch (Exception e) {
+    }
 
-			JSFUtil.addErrorMessage(e.getMessage());
-			return null;
-			
-		}		
+    public String imgFull() {
 
-	}
+        try {
 
-	public Dados getDados() {
-		return dados;
-	}
+            return this.dadosServico.trataImg(this.dadosFiltro.getImg());
 
-	public void setDados(Dados dados) {
-		this.dados = dados;
-	}
+        } catch (Exception e) {
 
-	public Evento getEvento() {
-		return evento;
-	}
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-	}
+        }
 
-	public Celula getCelula() {
-		return celula;
-	}
+    }
 
-	public void setCelula(Celula celula) {
-		this.celula = celula;
-	}
+    public Dados getDados() {
+        return dados;
+    }
 
-	public List<Dados> getDadosFiltrados() {
-		return dadosFiltrados;
-	}
+    public void setDados(Dados dados) {
+        this.dados = dados;
+    }
 
-	public void setDadosFiltrados(List<Dados> dadosFiltrados) {
-		this.dadosFiltrados = dadosFiltrados;
-	}
+    public Evento getEvento() {
+        return evento;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public Celula getCelula() {
+        return celula;
+    }
 
-	public Dados getDadosFiltro() {
-		return dadosFiltro;
-	}
+    public void setCelula(Celula celula) {
+        this.celula = celula;
+    }
 
-	public void setDadosFiltro(Dados dadosFiltro) {
-		this.dadosFiltro = dadosFiltro;
-	}	
+    public List<Dados> getDadosFiltrados() {
+        return dadosFiltrados;
+    }
+
+    public void setDadosFiltrados(List<Dados> dadosFiltrados) {
+        this.dadosFiltrados = dadosFiltrados;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Dados getDadosFiltro() {
+        return dadosFiltro;
+    }
+
+    public void setDadosFiltro(Dados dadosFiltro) {
+        this.dadosFiltro = dadosFiltro;
+    }
 
 }

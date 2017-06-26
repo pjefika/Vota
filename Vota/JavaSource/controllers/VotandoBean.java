@@ -17,66 +17,66 @@ import util.JSFUtil;
 @ViewScoped
 public class VotandoBean {
 
-	@ManagedProperty(value="#{loginBean}")
-	private LoginBean sessao;
+    @ManagedProperty(value = "#{loginBean}")
+    private LoginBean sessao;
 
-	private Votado votado;
+    private Votado votado;
 
-	@EJB
-	private VotadoServico votadoServico;
+    @EJB
+    private VotadoServico votadoServico;
 
-	public VotandoBean() {
+    public VotandoBean() {
 
-		this.votado = new Votado();
+        this.votado = new Votado();
 
-	}
+    }
 
-	public void votando(Dados dados, Celula celula) {
+    public void votando(Dados dados, Celula celula) {
 
-		try {
-			
-			this.votado = this.votadoServico.listarVotoEspecifico(this.sessao.getUsuario(), dados, celula);
-			
-			if (this.votado.getId() == null) {
+        try {
 
-				this.votadoServico.votar(dados, this.sessao.getUsuario());
+            this.votado = this.votadoServico.listarVotoEspecifico(this.sessao.getUsuario(), dados, celula);
 
-				JSFUtil.addInfoMessage("Votado com sucesso.");
+            if (this.votado.getId() == null) {
 
-			} else {
+                this.votadoServico.votar(dados, this.sessao.getUsuario());
 
-				JSFUtil.addErrorMessage("Você ja realizou o voto");
+                JSFUtil.addInfoMessage("Votado com sucesso.");
 
-			}
+            } else {
 
-		} catch (Exception e) {
+                JSFUtil.addErrorMessage("Você ja realizou o voto");
 
-			JSFUtil.addErrorMessage(e.getMessage());
+            }
 
-		}
+        } catch (Exception e) {
 
-	}
+            JSFUtil.addErrorMessage(e.getMessage());
 
-	public List<Votado> listarVotados(Dados dados) {
+        }
 
-		return this.votadoServico.listaVotado(dados);
+    }
 
-	}
+    public List<Votado> listarVotados(Dados dados) {
 
-	public Votado getVotado() {
-		return votado;
-	}
+        return this.votadoServico.listaVotado(dados);
 
-	public void setVotado(Votado votado) {
-		this.votado = votado;
-	}
+    }
 
-	public LoginBean getSessao() {
-		return sessao;
-	}
+    public Votado getVotado() {
+        return votado;
+    }
 
-	public void setSessao(LoginBean sessao) {
-		this.sessao = sessao;
-	}	
+    public void setVotado(Votado votado) {
+        this.votado = votado;
+    }
+
+    public LoginBean getSessao() {
+        return sessao;
+    }
+
+    public void setSessao(LoginBean sessao) {
+        this.sessao = sessao;
+    }
 
 }

@@ -1,106 +1,106 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/recursos/template/template.xhtml">
+    <ui:composition template="/recursos/template/template.xhtml">
 
-	<ui:define name="tituloPagina">
-		 Início
-	</ui:define>
-	<ui:define name="tituloPrincipal">
-		<i class="fa fa-list"> </i> Resultado</ui:define>
-	<ui:define name="tituloSecundario"></ui:define>
+        <ui:define name="tituloPagina">
+            Início
+        </ui:define>
+        <ui:define name="tituloPrincipal">
+            <i class="fa fa-list"> </i> Resultado</ui:define>
+        <ui:define name="tituloSecundario"></ui:define>
 
-	<ui:define name="botoesAcao"></ui:define>
+        <ui:define name="botoesAcao"></ui:define>
 
-	<ui:insert name="eventos">
-		<f:metadata>
+        <ui:insert name="eventos">
+            <f:metadata>
 
-			<f:event listener="#{loginBean.validaPagina('')}"
-				type="preRenderView" />
+                <f:event listener="#{loginBean.validaPagina('')}"
+                         type="preRenderView" />
 
-			<f:event
-				listener="#{loginBean.redirecionaIndex(loginBean.validaSeAdm())}"
-				type="preRenderView" />
+                <f:event
+                    listener="#{loginBean.redirecionaIndex(loginBean.validaSeAdm())}"
+                    type="preRenderView" />
 
-			<f:viewParam name="event" value="#{dadosBean.evento.id}" />
+                <f:viewParam name="event" value="#{dadosBean.evento.id}" />
 
-		</f:metadata>
-	</ui:insert>
+            </f:metadata>
+        </ui:insert>
 
-	<ui:define name="conteudo">
+        <ui:define name="conteudo">
 
-		<p:panel header="Busca">
+            <p:panel header="Busca">
 
-			<h:panelGrid>
+                <h:panelGrid>
 
-				<h:outputText value="Selecione a celula" />
-				<p:selectOneMenu value="#{dadosBean.celula}" filter="true"
-					filterMatchMode="contains"
-					converter="omnifaces.SelectItemsConverter">
+                    <h:outputText value="Selecione a celula" />
+                    <p:selectOneMenu value="#{dadosBean.celula}" filter="true"
+                                     filterMatchMode="contains"
+                                     converter="omnifaces.SelectItemsConverter">
 
-					<f:selectItem itemLabel=" -- Selecione -- "
-						noSelectionOption="true" />
+                        <f:selectItem itemLabel=" -- Selecione -- "
+                                      noSelectionOption="true" />
 
-					<f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
-						var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
+                        <f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
+                                       var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
 
-				</p:selectOneMenu>
+                    </p:selectOneMenu>
 
-				<p:commandButton action="#{dadosBean.listarDadosAction()}"
-					update="listEvent formTemplate:msgs" value="Buscar">
+                    <p:commandButton action="#{dadosBean.listarDadosAction()}"
+                                     update="listEvent formTemplate:msgs" value="Buscar">
 
-					<p:ajaxStatus onstart="PF('loadingDialogInfo').show();"
-						onsuccess="PF('loadingDialogInfo').hide();" />
+                        <p:ajaxStatus onstart="PF('loadingDialogInfo').show();"
+                                      onsuccess="PF('loadingDialogInfo').hide();" />
 
-				</p:commandButton>
+                    </p:commandButton>
 
-			</h:panelGrid>
+                </h:panelGrid>
 
-		</p:panel>
+            </p:panel>
 
-		<br />
+            <br />
 
-		<p:panel header="Fotos" id="listEvent">
+            <p:panel header="Fotos" id="listEvent">
 
-			<p:dataGrid value="#{dadosBean.dadosFiltrados}" var="dados"
-				id="infoEvento" columns="4" layout="grid" style="widht: 100%"
-				emptyMessage="Por favor realize a consulta para mostrar as imagens">
+                <p:dataGrid value="#{dadosBean.dadosFiltrados}" var="dados"
+                            id="infoEvento" columns="4" layout="grid" style="widht: 100%"
+                            emptyMessage="Por favor realize a consulta para mostrar as imagens">
 
-				<p:panel header="#{dados.nome}">
+                    <p:panel header="#{dados.nome}">
 
-					<h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
 
-						<h:outputText value="Quantidade de votos: #{votandoBean.listarVotados(dados).size()}" />
+                            <h:outputText value="Quantidade de votos: #{votandoBean.listarVotados(dados).size()}" />
 
-						<p:button outcome="imagemFull" value="Ver imagem" target="_blank"
-							style="color: #e8eaed; background-color: #2d74e5;">
+                            <p:button outcome="imagemFull" value="Ver imagem" target="_blank"
+                                      style="color: #e8eaed; background-color: #2d74e5;">
 
-							<f:param name="path" value="#{dados.img}" />
+                                <f:param name="path" value="#{dados.img}" />
 
-						</p:button>
+                            </p:button>
 
-					</h:panelGrid>
+                        </h:panelGrid>
 
-				</p:panel>
+                    </p:panel>
 
-			</p:dataGrid>
+                </p:dataGrid>
 
-		</p:panel>
+            </p:panel>
 
-		<p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
-			resizable="false" width="260" height="25" minWidth="260"
-			minHeight="25" showEffect="fade" hideEffect="fade" modal="true"
-			closable="false">
+            <p:dialog widgetVar="loadingDialogInfo" header="Aguarde..."
+                      resizable="false" width="260" height="25" minWidth="260"
+                      minHeight="25" showEffect="fade" hideEffect="fade" modal="true"
+                      closable="false">
 
-			<img id="j_idt17:form:j_idt45"
-				src="/Vota/recursos/images/ajax-loader.gif" alt="" />
+                <img id="j_idt17:form:j_idt45"
+                     src="/Vota/recursos/images/ajax-loader.gif" alt="" />
 
-		</p:dialog>
+            </p:dialog>
 
-	</ui:define>
-</ui:composition>
+        </ui:define>
+    </ui:composition>
 </html>

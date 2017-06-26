@@ -33,11 +33,6 @@
 		rgba(0, 140, 158, 1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#003345',
 		endColorstr='#008c9e', GradientType=1);
-	f84f32
-	',
-	endColorstr='#3c00ff',
-	GradientType=1
-	);
 }
 
 .ui-widget {
@@ -97,7 +92,7 @@ div#topo {
 	background-color: #2c3e50;
 	margin-top: -60px;
 	position: fixed;
-	z-index: 2000;
+	z-index: 1;
 }
 
 .marca {
@@ -161,7 +156,7 @@ div#corpo {
 	background-color: #007486;
 	float: left;
 	position: fixed;
-	z-index: 1999;
+	z-index: 1;
 }
 
 ul#menu {

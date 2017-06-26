@@ -9,110 +9,107 @@ import entidades.UsuarioEfika;
 import webservices.EfikaUsersProxy;
 import webservices.Usuario;
 
-
 @Stateless
 public class LoginServico {
 
-	@PersistenceContext(unitName="vu")
-	private EntityManager entityManager;
+    @PersistenceContext(unitName = "vu")
+    private EntityManager entityManager;
 
-	private EfikaUsersProxy efikaUsersProxy;
+    private EfikaUsersProxy efikaUsersProxy;
 
-	public LoginServico() {
+    public LoginServico() {
 
-		this.efikaUsersProxy = new EfikaUsersProxy();
+        this.efikaUsersProxy = new EfikaUsersProxy();
 
-	}
+    }
 
+    public Usuario buscaLoginWS(String login) throws Exception {
 
-	public Usuario buscaLoginWS(String login) throws Exception {
+        Usuario usuarioWS = efikaUsersProxy.consultarUsuario(login);
 
-		Usuario usuarioWS = efikaUsersProxy.consultarUsuario(login);
-				
-		if (usuarioWS == null){
+        if (usuarioWS == null) {
 
-			throw new Exception("Usuário não encontrado, se você não possui login de acesso utilize a opção \"Solicite o seu acesso\" na pagina http://efika/web");
+            throw new Exception("Usuário não encontrado, se você não possui login de acesso utilize a opção \"Solicite o seu acesso\" na pagina http://efika/web");
 
-		}
+        }
 
-		return usuarioWS;		
+        return usuarioWS;
 
-	}
+    }
 
-	public void autenticaLogin(Usuario usuario, String senha) throws Exception {
+    public void autenticaLogin(Usuario usuario, String senha) throws Exception {
 
-		Boolean auth = efikaUsersProxy.autenticarUsuario(usuario.getLogin(), senha);
+        Boolean auth = efikaUsersProxy.autenticarUsuario(usuario.getLogin(), senha);
 
-		if (!auth) {
+        if (!auth) {
 
-			throw new Exception("Login e senha incorretos, se você esqueceu da sua senha utilize a opção \"Esqueci minha senha\" na pagina http://efika/web");
+            throw new Exception("Login e senha incorretos, se você esqueceu da sua senha utilize a opção \"Esqueci minha senha\" na pagina http://efika/web");
 
-		}
+        }
 
-		this.buscaLogin(usuario);
+        this.buscaLogin(usuario);
 
-	}
-	
-	public void buscaLogin(Usuario usuario) {
+    }
 
-		try {
+    public void buscaLogin(Usuario usuario) {
 
-			Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login =:param1");
-			query.setParameter("param1", usuario.getLogin());	
+        try {
 
-			UsuarioEfika usuarioEfika = (UsuarioEfika) query.getSingleResult();
+            Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login =:param1");
+            query.setParameter("param1", usuario.getLogin());
 
-			if (usuarioEfika.getNivel() != usuario.getNivel()) {
+            UsuarioEfika usuarioEfika = (UsuarioEfika) query.getSingleResult();
 
-				usuarioEfika.setNivel(usuario.getNivel());
+            if (usuarioEfika.getNivel() != usuario.getNivel()) {
 
-				this.updateLogin(usuarioEfika);
+                usuarioEfika.setNivel(usuario.getNivel());
 
-			}else{
-				
-				
-			}
-			
-		} catch (Exception e) {
+                this.updateLogin(usuarioEfika);
 
-			this.salvaLogin(usuario);
+            } else {
 
-		}
+            }
 
-	}	
+        } catch (Exception e) {
 
-	public void salvaLogin(Usuario usuario) {
+            this.salvaLogin(usuario);
 
-		UsuarioEfika usuarioEfika = new UsuarioEfika();
+        }
 
-		usuarioEfika.setLogin(usuario.getLogin());
-		usuarioEfika.setNivel(usuario.getNivel());		
+    }
 
-		this.entityManager.persist(usuarioEfika);
-		
-	}
+    public void salvaLogin(Usuario usuario) {
 
-	public void updateLogin(UsuarioEfika usuarioEfika) {		
+        UsuarioEfika usuarioEfika = new UsuarioEfika();
 
-		this.entityManager.merge(usuarioEfika);		
+        usuarioEfika.setLogin(usuario.getLogin());
+        usuarioEfika.setNivel(usuario.getNivel());
 
-	}	
-	
-	public UsuarioEfika buscaUsuario(UsuarioEfika usuarioEfika) {
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login =:param1");
-			query.setParameter("param1", usuarioEfika.getLogin());
-						
-			return (UsuarioEfika) query.getSingleResult();
-			
-		} catch (Exception e) {
+        this.entityManager.persist(usuarioEfika);
 
-			return null;
-			
-		}
-		
-	}
+    }
+
+    public void updateLogin(UsuarioEfika usuarioEfika) {
+
+        this.entityManager.merge(usuarioEfika);
+
+    }
+
+    public UsuarioEfika buscaUsuario(UsuarioEfika usuarioEfika) {
+
+        try {
+
+            Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login =:param1");
+            query.setParameter("param1", usuarioEfika.getLogin());
+
+            return (UsuarioEfika) query.getSingleResult();
+
+        } catch (Exception e) {
+
+            return null;
+
+        }
+
+    }
 
 }

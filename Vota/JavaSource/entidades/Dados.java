@@ -3,95 +3,102 @@ package entidades;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="vota_dados_votacao")
+@Table(name = "vota_dados_votacao_2017")
 public class Dados {
-	
-	@Id
-	@GeneratedValue
-	private Integer id;
-	
-	private String img;
-	
-	private String nome;
-	
-	@ManyToOne
-	private Evento evento;
-	
-	@ManyToOne	
-	private Celula celula;
 
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Lob
+    private String img;
 
-	public String getImg() {
-		return img;
-	}
+    private String nome;
 
-	public void setImg(String img) {
-		this.img = img;
-	}
+    @ManyToOne
+    private Evento evento;
 
-	public String getNome() {
-		return nome;
-	}
+    @ManyToOne
+    private Celula celula;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Evento getEvento() {
-		return evento;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-	}	
+    public String getImg() {
+        return img;
+    }
 
-	public Celula getCelula() {
-		return celula;
-	}
+    public void setImg(String img) {
+        this.img = img;
+    }
 
-	public void setCelula(Celula celula) {
-		this.celula = celula;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Dados other = (Dados) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+    public Evento getEvento() {
+        return evento;
+    }
 
-	@Override
-	public String toString() {
-		return "Dados [id=" + id + "]";
-	}	
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public Celula getCelula() {
+        return celula;
+    }
+
+    public void setCelula(Celula celula) {
+        this.celula = celula;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Dados other = (Dados) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Dados [id=" + id + "]";
+    }
 
 }

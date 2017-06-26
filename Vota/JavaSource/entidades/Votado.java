@@ -9,81 +9,86 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="vota_votado")
+@Table(name = "vota_votado_2017")
 public class Votado {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	
-	@ManyToOne
-	private UsuarioEfika usuarioEfika;
-	
-	@ManyToOne
-	private Dados dados;
-	
-	private Date dataDoVoto;
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-	public Integer getId() {
-		return id;
-	}
+    @ManyToOne
+    private UsuarioEfika usuarioEfika;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @ManyToOne
+    private Dados dados;
 
-	public UsuarioEfika getUsuarioEfika() {
-		return usuarioEfika;
-	}
+    private Date dataDoVoto;
 
-	public void setUsuarioEfika(UsuarioEfika usuarioEfika) {
-		this.usuarioEfika = usuarioEfika;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Dados getDados() {
-		return dados;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setDados(Dados dados) {
-		this.dados = dados;
-	}	
+    public UsuarioEfika getUsuarioEfika() {
+        return usuarioEfika;
+    }
 
-	public Date getDataDoVoto() {
-		return dataDoVoto;
-	}
+    public void setUsuarioEfika(UsuarioEfika usuarioEfika) {
+        this.usuarioEfika = usuarioEfika;
+    }
 
-	public void setDataDoVoto(Date dataDoVoto) {
-		this.dataDoVoto = dataDoVoto;
-	}
+    public Dados getDados() {
+        return dados;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public void setDados(Dados dados) {
+        this.dados = dados;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Votado other = (Votado) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+    public Date getDataDoVoto() {
+        return dataDoVoto;
+    }
 
-	@Override
-	public String toString() {
-		return "Votado [id=" + id + "]";
-	}	
-	
+    public void setDataDoVoto(Date dataDoVoto) {
+        this.dataDoVoto = dataDoVoto;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Votado other = (Votado) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Votado [id=" + id + "]";
+    }
+
 }
