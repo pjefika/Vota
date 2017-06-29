@@ -150,5 +150,15 @@ public class DadosServico {
         }
 
     }
+    
+    public List<Dados> listaDadosPorEvento(Evento evento) throws Exception {
+        try {
+            Query query = this.entityManager.createQuery("FROM Dados d WHERE d.evento =:param1");
+            query.setParameter("param1", evento);
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 
 }

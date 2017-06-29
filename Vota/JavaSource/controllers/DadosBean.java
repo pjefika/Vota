@@ -16,6 +16,9 @@ import org.primefaces.model.UploadedFile;
 import entidades.Celula;
 import entidades.Dados;
 import entidades.Evento;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import models.DadosServico;
 import net.coobird.thumbnailator.Thumbnails;
 import util.JSFUtil;
@@ -137,6 +140,24 @@ public class DadosBean {
 
         }
 
+    }
+
+    public List<Celula> listadeCelula(Evento evento) {
+        try {
+            List<Celula> celulas = new ArrayList<>();
+            Set<Celula> hs = new HashSet<>();
+            List<Dados> lidados = this.dadosServico.listaDadosPorEvento(evento);
+            lidados.forEach((dado) -> {
+                celulas.add(dado.getCelula());
+            });
+            hs.addAll(celulas);
+            celulas.clear();
+            celulas.addAll(hs);
+            return celulas;
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
+        }
     }
 
     public Dados getDados() {

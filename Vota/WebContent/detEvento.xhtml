@@ -44,7 +44,7 @@
                         <f:selectItem itemLabel=" -- Selecione -- "
                                       noSelectionOption="true" />
 
-                        <f:selectItems value="#{celulaBean.listarCelulaAtivo()}"
+                        <f:selectItems value="#{dadosBean.listadeCelula(dadosBean.evento)}"
                                        var="celula" itemLabel="#{celula.nome}" itemValue="#{celula}" />
 
                     </p:selectOneMenu>
