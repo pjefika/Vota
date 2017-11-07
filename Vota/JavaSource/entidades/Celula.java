@@ -1,21 +1,18 @@
 package entidades;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "vota_celula_2017")
-public class Celula {
-
-    @Id
-    @GeneratedValue
-    private Integer id;
+public class Celula extends AbstractEntity {
 
     private String nome;
 
     private Boolean ativo;
+
+    public Celula() {
+    }
 
     public Integer getId() {
         return id;

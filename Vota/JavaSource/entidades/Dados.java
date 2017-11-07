@@ -1,19 +1,14 @@
 package entidades;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "vota_dados_votacao_2017")
-public class Dados {
+public class Dados extends AbstractEntity{
 
-    @Id
-    @GeneratedValue
-    private Integer id;
 
     @Lob
     private String img;
@@ -26,13 +21,10 @@ public class Dados {
     @ManyToOne
     private Celula celula;
 
-    public Integer getId() {
-        return id;
+    public Dados() {
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    
+    
 
     public String getImg() {
         return img;

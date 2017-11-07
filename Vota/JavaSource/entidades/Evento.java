@@ -3,36 +3,28 @@ package entidades;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "vota_evento_2017")
-public class Evento {
-
-    @Id
-    @GeneratedValue
-    private Integer id;
+public class Evento extends AbstractEntity {
 
     private String nome;
 
     private Boolean ativo = false;
 
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataEvento;
 
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataFim;
 
     @ManyToOne
     private UsuarioEfika usuarioEfika;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public Evento() {
     }
 
     public String getNome() {

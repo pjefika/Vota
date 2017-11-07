@@ -1,20 +1,13 @@
 package entidades;
 
 import java.util.Date;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "vota_votado_2017")
-public class Votado {
-
-    @Id
-    @GeneratedValue
-    private Integer id;
+public class Votado extends AbstractEntity {
 
     @ManyToOne
     private UsuarioEfika usuarioEfika;
@@ -24,12 +17,7 @@ public class Votado {
 
     private Date dataDoVoto;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public Votado() {
     }
 
     public UsuarioEfika getUsuarioEfika() {

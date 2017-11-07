@@ -3,7 +3,6 @@ package models;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import entidades.Celula;
 import entidades.Dados;
 import entidades.Evento;
 import org.apache.axis.encoding.Base64;
-import util.JSFUtil;
 
 @Stateless
 public class DadosServico {
@@ -32,17 +30,7 @@ public class DadosServico {
         try {
 
             byte[] conteudo = file.getContents();
-
             String imgBase64 = Base64.encode(conteudo);
-//            System.out.println(imgBase64);
-//            String extencion = file.getFileName().substring(file.getFileName().lastIndexOf('.'), file.getFileName().length());
-//
-//            String path = "C:\\UploadedFiles\\" + JSFUtil.gerarStringAleatoria(6) + extencion;
-//
-//            FileOutputStream fos = new FileOutputStream(path);
-//
-//            fos.write(conteudo);
-//            fos.close();
             this.cadastraDados(evento, imgBase64, file.getFileName(), celula);
 
         } catch (Exception e) {
