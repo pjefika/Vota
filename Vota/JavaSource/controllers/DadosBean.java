@@ -59,13 +59,10 @@ public class DadosBean {
         try {
 
             if (this.evento != null && !this.celula.getNome().isEmpty()) {
-
                 this.dadosServico.uploadImg(file, this.evento, this.celula);
-
                 JSFUtil.addInfoMessage("Cadastrado com sucesso.");
 
             } else {
-
                 JSFUtil.addErrorMessage("Por favor selecione o Evento/Celula.");
 
             }
@@ -81,11 +78,8 @@ public class DadosBean {
     public void removerImg(Dados dados) {
 
         try {
-
             this.dadosServico.removerImg(dados);
-
             JSFUtil.addInfoMessage("Removido com sucesso.");
-
         } catch (Exception e) {
 
             JSFUtil.addErrorMessage(e.getMessage());

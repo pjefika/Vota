@@ -38,15 +38,10 @@ public class VotandoBean {
             this.votado = this.votadoServico.listarVotoEspecifico(this.sessao.getUsuario(), dados, celula);
 
             if (this.votado.getId() == null) {
-
                 this.votadoServico.votar(dados, this.sessao.getUsuario());
-
-                JSFUtil.addInfoMessage("Votado com sucesso.");
-
+                JSFUtil.addInfoMessage("Voto realizado com sucesso.");
             } else {
-
-                JSFUtil.addErrorMessage("Voc� ja realizou o voto");
-
+                JSFUtil.addErrorMessage("Você já realizou um voto.");
             }
 
         } catch (Exception e) {

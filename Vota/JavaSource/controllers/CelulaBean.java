@@ -35,7 +35,7 @@ public class CelulaBean {
 
             this.celulaServico.cadastrarCelula(this.celula);
 
-            JSFUtil.addInfoMessage("Celula cadastrado com sucesso.");
+            JSFUtil.addInfoMessage("Célula cadastrada com sucesso.");
 
             this.celula = new Celula();
 
@@ -53,7 +53,7 @@ public class CelulaBean {
 
             this.celulaServico.modificarCelula(this.celulaModifica);
 
-            JSFUtil.addInfoMessage("Celula modificado com sucesso.");
+            JSFUtil.addInfoMessage("Célula modificada com sucesso.");
 
             this.celulaModifica = new Celula();
 
