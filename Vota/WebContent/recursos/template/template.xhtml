@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
@@ -29,7 +28,7 @@
         <div id="topo" class="gradienteTelefonica">
             <div class="marca">
                 <ui:insert name="tituloSistema">
-                    <a href="/Vota/"> <span> Vota</span> <span
+                    <a href="${facesContext.externalContext.requestContextPath}"> <span> Vote</span> <span
                             class="linhaDif">_</span>
                     </a>
                 </ui:insert>

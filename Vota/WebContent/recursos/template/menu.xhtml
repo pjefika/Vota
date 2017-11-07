@@ -12,13 +12,13 @@
             <h:panelGroup rendered="#{loginBean.logado}">
 
                 <li>
-                    <a href="/Vota/eventos.jsf"> <i class="fa fa-list" />
+                    <a href="${facesContext.externalContext.requestContextPath}/eventos.jsf"> <i class="fa fa-list" />
                         Eventos
                     </a>
                 </li>
                 
                 <li rendered="#{loginBean.validaSeAdm()}">
-                    <a href="/Vota/gerEventos.jsf"> <i class="fa fa-list" />
+                    <a href="${facesContext.externalContext.requestContextPath}/gerEventos.jsf"> <i class="fa fa-list" />
                         Gerenciar Eventos
                     </a>
                 </li>
